@@ -11,14 +11,22 @@
     <script src="/assets/js/app.js"></script>
   </head>
   <body>
-    <div class="grid-frame vertical">
-      <div class="grid-content shrink" style="padding: 0;">
-        <ul class="primary condense menu-bar">
-          <li><a><strong>Foundation for Apps</strong></a></li>
+
+    <div class="grid-frame">
+
+      <div class="grid-block shrink">
+        <ul class="secondary button vertical condense menu-bar">
+          <li><a ui-sref="home"><h4>Yii2_foundation-apps</h4></a></li>
+          <li><a ui-sref="home">Intro</a></li>
+          <li><a ui-sref="items">Demo</a></li>
         </ul>
       </div>
-      <div ui-view class="grid-content">
+
+      <div class="grid-block">
+        <div ui-view></div>
       </div>
+      
     </div>
+
   </body>
 </html>
