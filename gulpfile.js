@@ -44,6 +44,7 @@ var paths = {
   ],
   // These files are for your app's JavaScript
   appJS: [
+    'bower_components/underscore/underscore.js',
     'client/assets/js/app.js'
   ]
 }
