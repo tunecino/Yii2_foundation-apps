@@ -45,7 +45,14 @@ var paths = {
   // These files are for your app's JavaScript
   appJS: [
     'bower_components/underscore/underscore.js',
-    'client/assets/js/app.js'
+    'client/assets/js/app.js',
+
+    // Load my modules
+    'client/assets/js/*/module.js',
+    'client/assets/js/*/controllers.js',
+    'client/assets/js/*/factories.js',
+    'client/assets/js/*/services.js',
+    'client/assets/js/*/directives.js'
   ]
 }
 
@@ -146,7 +153,7 @@ gulp.task('uglify:app', function() {
 gulp.task('server', ['build'], function() {
   gulp.src('./build')
     .pipe($.webserver({
-      port: 8080,
+      port: 8081,
       host: 'localhost',
       fallback: 'index.html',
       livereload: true,
