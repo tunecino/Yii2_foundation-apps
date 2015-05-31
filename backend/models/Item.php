@@ -60,4 +60,9 @@ class Item extends \yii\db\ActiveRecord
     {
         return $this->hasMany(Tag::className(), ['id' => 'tag_id'])->viaTable('item_has_tag', ['item_id' => 'id']);
     }
+
+    public function extraFields()
+    {
+        return ['tags'];
+    }
 }
