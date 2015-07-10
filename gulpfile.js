@@ -45,6 +45,7 @@ var paths = {
   // These files are for your app's JavaScript
   appJS: [
     'bower_components/underscore/underscore.js',
+    'bower_components/restangular/src/restangular.js',
     'client/assets/js/app.js',
 
     // Load my modules
