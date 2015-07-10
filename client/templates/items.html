@@ -5,6 +5,7 @@ controller: ItemCtrl
 ---
 
 <h1>Items</h1>
+<h4>is_loading: {{loading}}</h4>
 
 <section>
 
@@ -14,8 +15,6 @@ controller: ItemCtrl
 
 	<div class="grid-block card card-section" ng-repeat="item in items | filter:{ name: query}">
 				<div class="medium-4 grid-content">{{item.name}}</div>
-				<div class="medium-2 grid-content">{{item.category}}</div>
-				<div class="medium-3 grid-content">{{item.price | currency}}</div>
 				<div class="medium-3 inline-label">
 					<div class="secondary button" ng-click="panelScreen(item)" zf-open="panelEdit">Edit</div>
 					<div class="warning button" ng-click="deleteItem(item)">Delete</div>
@@ -66,6 +65,11 @@ controller: ItemCtrl
 
 
 </div>
+
+<a href="#!/items/fuck">open panel</a>
+
+
+<div ui-view></div>
 
 
 	
