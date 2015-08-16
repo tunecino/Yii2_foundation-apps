@@ -5,12 +5,12 @@ namespace app\models;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\Item;
+use app\models\Image;
 
 /**
- * ItemSearch represents the model behind the search form about `app\models\Item`.
+ * ImageSearch represents the model behind the search form about `app\models\Image`.
  */
-class ItemSearch extends Item
+class ImageSearch extends Image
 {
     /**
      * @inheritdoc
@@ -19,7 +19,7 @@ class ItemSearch extends Item
     {
         return [
             [['id'], 'integer'],
-            [['name'], 'safe'],
+            [['title', 'url'], 'safe'],
         ];
     }
 
@@ -41,7 +41,7 @@ class ItemSearch extends Item
      */
     public function search($params)
     {
-        $query = Item::find();
+        $query = Image::find();
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -51,7 +51,7 @@ class ItemSearch extends Item
 
         if (!$this->validate()) {
             // uncomment the following line if you do not want to return any records when validation fails
-            $query->where('0=1');
+            // $query->where('0=1');
             return $dataProvider;
         }
 
@@ -59,7 +59,8 @@ class ItemSearch extends Item
             'id' => $this->id,
         ]);
 
-        $query->andFilterWhere(['like', 'name', $this->name]);
+        $query->andFilterWhere(['like', 'title', $this->title])
+            ->andFilterWhere(['like', 'url', $this->url]);
 
         return $dataProvider;
     }

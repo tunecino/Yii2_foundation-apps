@@ -9,10 +9,9 @@ use Yii;
  *
  * @property integer $id
  * @property string $name
- * @property string $color
  *
- * @property ItemHasTag[] $itemHasTags
- * @property Item[] $items
+ * @property ImageHasTag[] $imageHasTags
+ * @property Image[] $images
  */
 class Tag extends \yii\db\ActiveRecord
 {
@@ -30,9 +29,8 @@ class Tag extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'color'], 'required'],
-            [['name'], 'string', 'max' => 12],
-            [['color'], 'string', 'max' => 6]
+            [['name'], 'required'],
+            [['name'], 'string', 'max' => 12]
         ];
     }
 
@@ -44,28 +42,22 @@ class Tag extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'name' => 'Name',
-            'color' => 'Color',
         ];
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getItemHasTags()
+    public function getImageHasTags()
     {
-        return $this->hasMany(ItemHasTag::className(), ['tag_id' => 'id']);
+        return $this->hasMany(ImageHasTag::className(), ['tag_id' => 'id']);
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getItems()
+    public function getImages()
     {
-        return $this->hasMany(Item::className(), ['id' => 'item_id'])->viaTable('item_has_tag', ['tag_id' => 'id']);
-    }
-
-    public function extraFields()
-    {
-        return ['items'];
+        return $this->hasMany(Image::className(), ['id' => 'image_id'])->viaTable('image_has_tag', ['tag_id' => 'id']);
     }
 }

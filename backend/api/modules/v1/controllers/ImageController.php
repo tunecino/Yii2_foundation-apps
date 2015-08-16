@@ -3,11 +3,11 @@
 namespace app\api\modules\v1\controllers;
 
 use yii\rest\ActiveController;
-use app\models\ItemSearch;
+use app\models\ImageSearch;
 use yii\filters\Cors;
 use yii\helpers\ArrayHelper;
 
-class ItemController extends ActiveController
+class ImageController extends ActiveController
 {
 	public function behaviors()
 	{
@@ -23,7 +23,7 @@ class ItemController extends ActiveController
 	    ], parent::behaviors());
 	}
 
-    public $modelClass = 'app\models\Item';
+    public $modelClass = 'app\models\Image';
     public $serializer = [
         'class' => 'yii\rest\Serializer',
         'collectionEnvelope' => 'data',
@@ -39,7 +39,7 @@ class ItemController extends ActiveController
 
 	public function prepareDataProvider() {
 
-	    $searchModel = new ItemSearch();    
+	    $searchModel = new ImageSearch();    
         return $searchModel->search(\Yii::$app->request->queryParams);
 	}
 }

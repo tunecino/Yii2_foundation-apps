@@ -37,7 +37,7 @@ $config = [
             'enableStrictParsing' => true,
             'showScriptName' => false,
             'rules' => [
-                ['class' => 'yii\rest\UrlRule', 'controller' => ['v1/item','v1/tag']],
+                ['class' => 'yii\rest\UrlRule', 'controller' => ['v1/image','v1/tag']],
             ],
         ], 
         'db' => $db,
