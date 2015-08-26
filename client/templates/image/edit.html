@@ -1,0 +1,11 @@
+---
+name: edit
+url: /edit/{id:[0-9]{1,4}}
+parent: images
+controller: PanelCtrl
+---
+
+<form role="form" ng-submit="update()">
+{{$stateParams.id}}
+    <div ng-include="" src="'templates/image/_form.html'"></div>
+</form>

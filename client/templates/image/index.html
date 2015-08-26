@@ -1,0 +1,80 @@
+---
+name: images
+url: /images
+controller: ImageCtrl
+---
+
+<h1>Images</h1>
+<h4>is_loading: {{loading}}</h4>
+
+<section>
+
+	<div class="grid-block">
+		<input type="text" placeholder="Search by name" ng-model="query" ng-show="images.length">
+	</div>
+
+	<div class="grid-block card card-section" ng-repeat="image in images | filter:{ name: query}">
+				<div class="medium-4 grid-content">{{image.name}}</div>
+				<div class="medium-3 inline-label">
+					<div class="secondary button" ng-click="panelScreen(image)" zf-open="panelEdit">Edit</div>
+					<div class="warning button" ng-click="deleteImage(image)">Delete</div>
+				</div>
+	</div>
+
+	<div class="grid-block ">
+		<div class="secondary button large" zf-open="panelEdit">Create new Image</div>
+	</div>
+
+ 
+<div zf-panel="" id="panelEdit" position="bottom">
+
+
+   <form>
+
+   <div class="grid-block align-right">
+			<button class="success button" ng-click="saveEdit(currentImage)" zf-close="">Save</button>
+	    	<button class="secondary button" ng-click="cancelEdit()" zf-close="">Cancel</button>
+	</div>
+
+   	<div class="grid-block">
+   		<div class="medium-12 grid-content">
+			<label>
+				Name :
+				<input type="text" placeholder="Name" ng-model="currentImage.name">
+			</label>
+		</div>
+	</div>
+		
+		<div class="grid-block">
+			<div class="small-12 medium-6 grid-content">
+				<label>
+				Price :
+				<input type="text" placeholder="Price" ng-model="currentImage.price">
+				</label>
+			</div>
+			<div class="small-12 medium-6 grid-content" ng-model="currentImage.category">
+				<label>Select Label</label>
+				<select ng-model="currentImage.category">
+					<option ng-repeat="category in categories" value="{{category.name}}">{{category.name}}</option>			
+				</select>
+			</div>
+		</div>
+
+
+	</form>
+
+
+</div>
+
+<hr>
+<a ui-sref="new">new</a> - 
+<a ui-sref="edit({id:'12'})">edit</a>
+
+<div ui-view></div>
+
+
+	
+
+</section>
+
+

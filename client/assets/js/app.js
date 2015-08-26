@@ -13,7 +13,7 @@
     // My modules
     'SharedModule',
     'HomeModule',
-    'ItemModule',
+    'ImageModule',
 
     //3rd libs
     'restangular'
