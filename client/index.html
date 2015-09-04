@@ -12,20 +12,28 @@
   </head>
   <body>
 
-    <div class="grid-frame">
+    <zf-offcanvas position="left" id="menu-off-canvas">
+        <a zf-close class="close-button">x</a>
+        <ul class="menu-bar vertical">
+            <li class="title">Menu</li>
+            <li ui-sref-active="is-active"><a ui-sref="home">Home</a></li>
+            <li ui-sref-active="is-active"><a ui-sref="images">demo</a></li>
 
-      <div class="grid-block shrink">
-        <ul class="secondary button vertical condense menu-bar">
-          <li><a ui-sref="home"><h4>Yii2_foundation-apps</h4></a></li>
-          <li><a ui-sref="home">Intro</a></li>
-          <li><a ui-sref="images">Demo</a></li>
+        </ul>
+    </zf-offcanvas>
+
+    <div class="grid-frame vertical">
+      <div class="grid-content shrink" style="padding: 0;">
+        <ul class="condense menu-bar ng-scope">
+              <li><a href="#" zf-open="menu-off-canvas">M</a></li>
+              <li class="right"><a href="#">is_loading: {{loading}}</a></li>
         </ul>
       </div>
-
       <div class="grid-content">
-        <div ui-view class="grid-container"></div>
+        <div class="grid-container">
+          <div ng-class="['ui-animation']" ui-view></div>
+        </div>
       </div>
-      
     </div>
 
   </body>

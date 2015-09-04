@@ -2,22 +2,82 @@
   'use strict';
   var controllers;
 
-  //ContactCtrl.$inject = ['$scope', 'MailContactQuery', 'FoundationApi'];
-  ImageCtrl.$inject = ['$scope', '$http', '$filter', '$stateParams', '$state', '$controller','RestImageQuery', 'popupService'];
-  function ImageCtrl($scope, $http, $filter, $stateParams, $state, $controller, RestImageQuery, popupService) {
+ /***
+   *
+   *  Image Controller
+   *
+  ***/
+
+  ImageCtrl.$inject = [
+    '$scope', 
+    '$http', 
+    '$filter', 
+    '$stateParams', 
+    '$state', 
+    '$controller',
+    'RestImageQuery',
+    'popupService',
+    'Images',
+    'Model'
+  ];
+
+  function ImageCtrl($scope, $http, $filter, $stateParams, $state, $controller, RestImageQuery, popupService, Images, Model) {
 
       //angular.extend(this, $controller('DefaultController', {$scope: $scope, $filter: $filter, $http: $http, $stateParams: $stateParams, $state: $state}));
       
-      var limit = 7;
-      $scope.page = 1;
+
+
 
       $scope.listImages = function() {
         RestImageQuery.getAll(limit,$scope.page).then(function(images) {
           $scope.images = images;
-          console.log($scope.images);
-          console.log($scope.images._meta);
+          //console.log($scope.images);
+          //console.log($scope.images._meta);
         });
       };
+
+      $scope.tt = function() {
+        //$scope.test = Images.getOne(1);
+        //Images.firstPage().then(function(data) {
+        Images.test().then(function(data) {
+          $scope.test = data;
+          $scope.images = data;
+          $scope.totalCount  = Images.totalCount  = data._meta.totalCount;
+          $scope.pageCount   = Images.pageCount   = data._meta.pageCount;
+          $scope.currentPage = Images.currentPage = data._meta.currentPage;
+          $scope.perPage     = Images.perPage     = data._meta.perPage;
+
+          $scope.test2 = 
+            '[' + $scope.totalCount + ']' +
+            '[' + $scope.pageCount + ']'+
+            '[' + $scope.currentPage + ']'+
+            '[' + $scope.perPage + ']' ;
+
+
+
+          Images.totalPages = data._meta.pageCount;
+          $scope.totalPages = Images.totalPages;
+          console.log(data);
+          //console.log($scope.test._meta.pageCount);
+
+        });
+
+                  
+      };
+
+        $scope.tt2 = function() {
+        var aa = new Model('images');
+        console.log(aa);
+        $scope.test = aa.$object;
+        // Model.getOne(2).then(function(data) {
+        //   $scope.test = data;
+        // });
+
+                  
+      };
+
+      $scope.tt();
+      //$scope.tt2();
 
       $scope.currentImage= null;
 
@@ -64,18 +124,34 @@
         $scope.currentImage = null;
       }
 
-      $scope.listImages();
+      //$scope.listImages();
   }
 
 
-  PanelCtrl.$inject = ['$scope', '$rootScope', '$http', '$filter', '$stateParams', '$state', '$controller','RestImageQuery', 'FoundationApi'];
-  function PanelCtrl($scope, $rootScope, $http, $filter, $stateParams, $state, $controller, RestImageQuery, fa) {
+
+ /***
+   *
+   *  Panel Controller
+   *
+  ***/
+  
+  PanelCtrl.$inject = [
+    '$scope', 
+    '$rootScope', 
+    '$http', 
+    '$filter', 
+    '$stateParams', 
+    '$state', 
+    '$controller',
+    'RestImageQuery', 
+    'FoundationApi'
+  ];
+
+  function PanelCtrl($scope, $rootScope, RestImageQuery) {
     $scope.test = 'it works';
     $scope.make = function() {
       $rootScope.loading = true;
     }
-
-
   }
 
   controllers = {

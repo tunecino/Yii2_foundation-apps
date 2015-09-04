@@ -3,15 +3,46 @@ name: images
 url: /images
 controller: ImageCtrl
 ---
-
 <h1>Images</h1>
-<h4>is_loading: {{loading}}</h4>
+{{test2}}
+<button ng-click="tt()">first</button>
+<button ng-click="tt2()">last</button>
+<input type="text" placeholder="Search by name" ng-model="query" ng-show="images.length">
+<pre>{{test | json}}</pre>
+<div class="grid-block small-up-1 medium-up-2">
+    <div class="grid-content" ng-repeat="image in images">
+        <div class="card">
+            <img ng-src="{{image.url}}" />
+            <div class="card-divider grid-block" ng-init="editBtn=false">
+                <div class="small-8" style="padding-left:10px;">{{ image.title }}</div>
+                <div class="small-4" style="padding-right:10px;">
+	                <a class="float-right" ng-hide="editBtn" ng-click="editBtn=!editBtn">Edit</a>
+	                <span ng-show="editBtn">
+	                	<a class="float-right" style="margin-left:10px;">Tags</a>
+	                	<a ui-sref="edit({id:image.id})" style="margin-left:10px;" class="float-right">Image</a>
+	                	<a class="float-right" ng-click="editBtn=!editBtn" style="color:gray;font-size:10px;">cancel</a>
+	                </span>
+	            </div>
+			</div>
+
+            <div class="card-section" >
+            	
+            	<div class="secondary button" ng-repeat="tag in image.tags">{{ tag.name }}</div> 
+            	<div class="secondary button" ng-repeat="tag in image.tags">{{ tag.name }}</div> 
+            	<div class="secondary button" ng-repeat="tag in image.tags">{{ tag.name }}</div> 
+            </div>
+
+
+
+            	
+
+
+        </div>
+    </div>
+</div>
 
 <section>
 
-	<div class="grid-block">
-		<input type="text" placeholder="Search by name" ng-model="query" ng-show="images.length">
-	</div>
 
 	<div class="grid-block card card-section" ng-repeat="image in images | filter:{ name: query}">
 				<div class="medium-4 grid-content">{{image.name}}</div>

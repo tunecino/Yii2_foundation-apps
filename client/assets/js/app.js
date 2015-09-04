@@ -40,6 +40,9 @@
     RestangularProvider.setBaseUrl('http://foundapps.dev/backend/api/v1');
     //RestangularProvider.setRequestSuffix('.json');
     //RestangularProvider.setDefaultHttpFields({cache: true});
+    // RestangularProvider.setRestangularFields({
+    //   selfLink: 'self.link'
+    // });
     RestangularProvider.addResponseInterceptor(function(data, operation, what, url, response, deferred) {
       var extractedData;
       // .. to look for getList operations
@@ -47,11 +50,10 @@
         extractedData = data.data;
         extractedData._meta = data._meta;
         extractedData._links = data._links;
-
       } 
       else {
         extractedData = data;
-        //extractedData._link = data.links;
+        extractedData.test = 'good place to store pagination data !';
       }
       return extractedData;
     });

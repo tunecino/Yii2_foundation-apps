@@ -2,14 +2,65 @@
   'use strict';
   var factories;
 
-  ImageSomeFactory.$inject = [];
-  function ImageSomeFactory() {
+  Images.$inject = ['Restangular', '$q'];
+  function Images(Restangular, $q) {
 
+  	var service = {};
+
+  	var api = Restangular.all('images');
+
+  	service.expand = 'tags';
+
+	
+
+	service.totalCount = 0;
+	service.pageCount = 0;
+	service.currentPage = 0;
+	service.perPage = 2;
+
+
+  	service.getOne = function(id) {
+  		return api.get(id, {'expand': this.expand});
+  	};
+
+  	service.firstPage = function() {
+  		this.currentPage = 1;
+  		return api.getList({'expand': this.expand, 'per-page': this.perPage, 'page': this.currentPage});
+  	};
+
+  	service.lastPage = function() {
+  		if (this.pageCount < 2) return this.firstPage();
+  		this.currentPage = this.pageCount;
+  		return api.getList({'expand': this.expand, 'per-page': this.perPage, 'page': this.currentPage});
+  	};
+
+  	service.test = function() {
+  		var newResDeferred = $q.defer();
+        api.getList({'expand': this.expand, 'per-page': this.perPage, 'page': this.currentPage})
+        .then(function(result){
+            var newRes = result;
+            newRes.newlyCreatedProp = 'newlyCreatedProp';
+            newResDeferred.resolve(newRes);
+        });
+        return newResDeferred.promise;
+  	};
+
+  	
+
+  	// service.nextPage = function() {
+  	// 	return totalPages;
+  	// }
+
+  	// service.setTotalPages = function(total) {
+  	// 	totalPages = total;
+  	// }
+
+  	return service;
   }
 
 
   factories = {
-    ImageSomeFactory: ImageSomeFactory
+    Images: Images
   };
 
 

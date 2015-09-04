@@ -32,7 +32,8 @@ class Image extends \yii\db\ActiveRecord
         return [
             [['title', 'url'], 'required'],
             [['title'], 'string', 'max' => 60],
-            [['url'], 'string', 'max' => 255]
+            [['url'], 'string', 'max' => 255],
+            [['url'], 'url', 'defaultScheme' => 'http']
         ];
     }
 
