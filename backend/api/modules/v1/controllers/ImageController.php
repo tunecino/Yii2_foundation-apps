@@ -26,7 +26,7 @@ class ImageController extends ActiveController
     public $modelClass = 'app\models\Image';
     public $serializer = [
         'class' => 'yii\rest\Serializer',
-        'collectionEnvelope' => 'data',
+        'collectionEnvelope' => 'images',
     ];
 
     public function actions() {

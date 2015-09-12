@@ -25,6 +25,7 @@
   "dependencies": {
     "foundation-apps": "~1.1.0",
     "underscore": "~1.8.3",
-    "restangular": "~1.5.1"
+    "restangular": "~1.5.1",
+    "angular-restmod": "~1.1.9"
   }
 }

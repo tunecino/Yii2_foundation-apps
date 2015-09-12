@@ -46,6 +46,8 @@ var paths = {
   appJS: [
     'bower_components/underscore/underscore.js',
     'bower_components/restangular/src/restangular.js',
+    'bower_components/angular-restmod/dist/angular-restmod.js',
+    'bower_components/angular-restmod/dist/angular-restmod-bundle.js',
     'client/assets/js/app.js',
 
     // Load my modules

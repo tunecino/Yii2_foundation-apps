@@ -18,15 +18,61 @@
     'RestImageQuery',
     'popupService',
     'Images',
-    'Model'
+    'Model',
+    'restmod'
   ];
 
-  function ImageCtrl($scope, $http, $filter, $stateParams, $state, $controller, RestImageQuery, popupService, Images, Model) {
+  function ImageCtrl($scope, $http, $filter, $stateParams, $state, $controller, RestImageQuery, popupService, Images, Model, restmod) {
 
       //angular.extend(this, $controller('DefaultController', {$scope: $scope, $filter: $filter, $http: $http, $stateParams: $stateParams, $state: $state}));
       
+      //console.log(Images.$pending);
+      //var images = Images.$find(2);
+      var images = Images.$search({ expand: 'tags', 'per-page': 1});
+
+      var oneImage = Images.$find(1);
+
+      console.log(oneImage);
+
+      oneImage.$then(function(data) { 
+        $scope.test =  data;
+        //console.log(data.$page);
+        //var tt = data;
+        console.log($scope.test.title);
+        
+
+      });
+
+      images.$then(function(data) { 
+        $scope.images =  data.$encode();
+        //console.log(data.$page);
+        console.log(data);
+      });
 
 
+
+      // var images = Images.$collection({ expand: 'tags', 'per-page': 1});
+      // images.$on('after-fetch-many', function(_response) {
+      //   //var headers = _response.headers('X-Pagination-Current-Page');
+      //   console.log(_response.$encode());
+      // });
+
+      // images.$fetch();
+
+      //console.log(Images.$pending);
+
+      //$scope.test =  images;
+
+
+
+
+
+      //console.log(images);
+
+      //var mm = restmod.model('/images');
+      //var aa = mm.$find(1);
+      //console.log(images);
+      //console.log(aa.response.data);
 
       $scope.listImages = function() {
         RestImageQuery.getAll(limit,$scope.page).then(function(images) {
@@ -57,7 +103,7 @@
 
           Images.totalPages = data._meta.pageCount;
           $scope.totalPages = Images.totalPages;
-          console.log(data);
+          //console.log(data);
           //console.log($scope.test._meta.pageCount);
 
         });
@@ -66,17 +112,21 @@
       };
 
         $scope.tt2 = function() {
-        var aa = new Model('images');
-        console.log(aa);
-        $scope.test = aa.$object;
-        // Model.getOne(2).then(function(data) {
-        //   $scope.test = data;
-        // });
+          var aa = new Model('images');
+          //console.log(aa);
+        
+
+
+
+          $scope.test = aa.$object;
+          // Model.getOne(2).then(function(data) {
+          //   $scope.test = data;
+          // });
 
                   
       };
 
-      $scope.tt();
+      //$scope.tt();
       //$scope.tt2();
 
       $scope.currentImage= null;

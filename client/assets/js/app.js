@@ -16,10 +16,12 @@
     'ImageModule',
 
     //3rd libs
-    'restangular'
+    'restangular',
+    'restmod',
   ])
     .config(config)
     .config(rest)
+    .config(restmod)
     .run(run)
   ;
 
@@ -57,6 +59,37 @@
       }
       return extractedData;
     });
+  }
+
+  function restmod(restmodProvider) {
+     //restmodProvider.rebase('AMSApi'); // given the mixin is called MyStyleApi
+     restmodProvider.rebase({
+        // $config: {
+        //     //style: 'AMSApi',
+        //     style: 'DefaultPacker',
+        //     //primaryKey: 'id',
+        //     name: 'image',
+        //     plural: 'images',
+        //     jsonLinks: '_links'
+        // },
+
+         $hooks: {
+                'after-request-error': function(response) {
+                    console.log('-- error --');
+                    console.log(response);
+                 }
+         },
+
+         // 'Model.unpack': function(_resource, _raw) {
+         //    if(_resource.$isCollection) {
+         //      _resource.$page = _raw.page;
+         //      return _resource.results;
+         //    } else {
+         //      return _raw;
+         //    }
+         //  }
+    });
+
   }
 
   function run(Restangular, $rootScope) {
