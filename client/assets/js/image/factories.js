@@ -5,14 +5,14 @@
   //Images.$inject = ['restmod'];
 
   function Images (restmod) {
-    return restmod.model('images', 'DefaultPacker')
+    return restmod.model('images')
     //   , 'PagedModel', function() {
     //   this.define('pageHeader', 'X-Pagination-Current-Page');
     // })
     .mix({
       $config: {
-       //style: 'DefaultPacker',
-        //name: 'image', 
+       style: 'DefaultPacker',
+        name: 'image', 
         plural: 'images',
         primaryKey: 'id',
         jsonMeta: '_meta',

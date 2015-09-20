@@ -28,23 +28,24 @@
       
       //console.log(Images.$pending);
       //var images = Images.$find(2);
-      var images = Images.$search({ expand: 'tags', 'per-page': 1});
+      var images = Images.$search({ expand: 'tags', 'per-page': 2});
 
-      var oneImage = Images.$find(1);
+      // var oneImage = Images.$find(1);
 
-      console.log(oneImage);
+      // console.log(oneImage);
 
-      oneImage.$then(function(data) { 
-        $scope.test =  data;
-        //console.log(data.$page);
-        //var tt = data;
-        console.log($scope.test.title);
+      // oneImage.$then(function(data) { 
+      //   $scope.test =  data;
+      //   //console.log(data.$page);
+      //   //var tt = data;
+      //   console.log($scope.test.title);
         
 
-      });
+      // });
 
       images.$then(function(data) { 
-        $scope.images =  data.$encode();
+        $scope.images =  data;
+        //$scope.test =  data.$encode();
         //console.log(data.$page);
         console.log(data);
       });
@@ -178,6 +179,68 @@
   }
 
 
+    TeCtrl.$inject = [
+    '$scope', 
+    '$http', 
+    '$filter', 
+    '$stateParams', 
+    '$state', 
+    '$controller',
+    'RestImageQuery',
+    'popupService',
+    'Images',
+    'Model',
+    'restmod'
+  ];
+
+  function TeCtrl($scope, $http, $filter, $stateParams, $state, $controller, RestImageQuery, popupService, Images, Model, restmod) {
+
+      //angular.extend(this, $controller('DefaultController', {$scope: $scope, $filter: $filter, $http: $http, $stateParams: $stateParams, $state: $state}));
+      
+      //console.log(Images.$pending);
+      //var images = Images.$find(2);
+      //var images = Images.$search({ expand: 'tags', 'per-page': 1});
+
+      var oneImage = Images.$find(1);
+
+      $scope.imag = oneImage;
+
+      console.log(oneImage);
+
+      // oneImage.$then(function(data) { 
+      //   $scope.imag =  data.$response.data;
+      //   //console.log(data.$page);
+      //   //var tt = data;
+      //   console.log('data');
+      //   console.log(data.$response.data);
+        
+
+      // });
+
+      // images.$then(function(data) { 
+      //   $scope.images =  data.$encode();
+      //   //console.log(data.$page);
+      //   console.log(data);
+      // });
+
+
+
+      // var images = Images.$collection({ expand: 'tags', 'per-page': 1});
+      // images.$on('after-fetch-many', function(_response) {
+      //   //var headers = _response.headers('X-Pagination-Current-Page');
+      //   console.log(_response.$encode());
+      // });
+
+      // images.$fetch();
+
+      //console.log(Images.$pending);
+
+      //$scope.test =  images;
+
+
+  }
+
+
 
  /***
    *
@@ -187,18 +250,50 @@
   
   PanelCtrl.$inject = [
     '$scope', 
-    '$rootScope', 
-    '$http', 
-    '$filter', 
-    '$stateParams', 
-    '$state', 
-    '$controller',
-    'RestImageQuery', 
-    'FoundationApi'
+    '$rootScope',  
+    //'$stateParams', 
+    //'RestImageQuery', 
+    'restmod',
+    'Images'
   ];
 
-  function PanelCtrl($scope, $rootScope, RestImageQuery) {
-    $scope.test = 'it works';
+  function PanelCtrl($scope, $rootScope, restmod, Images) {
+
+    var oneImage = Images.$find(2);
+
+      console.log('$$'+oneImage);
+
+
+      var images = Images.$search({ expand: 'tags', 'per-page': 1});
+
+      images.$then(function(data) { 
+        $scope.image =  data.$encode();
+        //console.log(data.$page);
+        console.log('tt'+data);
+      });
+
+
+      // oneImage.$then(function(data) { 
+      //   $scope.image =  data.$encode;
+      //   //console.log(data.$page);
+      //   //var tt = data;
+      //   console.log('$'+$scope.image);
+        
+
+      // });
+
+
+      //console.log('ee'+oneImage);
+
+      // oneImage.$then(function(data) { 
+      //   $scope.test =  data;
+      //   //console.log(data.$page);
+      //   //var tt = data;
+      //   console.log($scope.test.title);
+        
+
+      // });
+
     $scope.make = function() {
       $rootScope.loading = true;
     }
@@ -206,6 +301,7 @@
 
   controllers = {
     ImageCtrl: ImageCtrl,
+    TeCtrl: TeCtrl,
     PanelCtrl: PanelCtrl
   };
 

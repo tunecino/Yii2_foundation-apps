@@ -63,7 +63,7 @@
 
   function restmod(restmodProvider) {
      //restmodProvider.rebase('AMSApi'); // given the mixin is called MyStyleApi
-     restmodProvider.rebase({
+     restmodProvider.rebase('DefaultPacker', {
         // $config: {
         //     //style: 'AMSApi',
         //     style: 'DefaultPacker',
