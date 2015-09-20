@@ -2,7 +2,7 @@
 
 namespace app\api\modules\v1\controllers;
 
-use yii\rest\ActiveController;
+use app\rest\ActiveController;
 use app\models\ImageSearch;
 use yii\filters\Cors;
 use yii\helpers\ArrayHelper;
@@ -25,7 +25,7 @@ class ImageController extends ActiveController
 
     public $modelClass = 'app\models\Image';
     public $serializer = [
-        'class' => 'yii\rest\Serializer',
+        'class' => 'app\rest\Serializer',
         'collectionEnvelope' => 'images',
     ];
 

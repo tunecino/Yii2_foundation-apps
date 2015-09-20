@@ -2,7 +2,7 @@
 
 namespace app\api\modules\v1\controllers;
 
-use yii\rest\ActiveController;
+use app\rest\ActiveController;
 use yii\filters\Cors;
 use yii\helpers\ArrayHelper;
 
@@ -24,7 +24,7 @@ class TagController extends ActiveController
 
     public $modelClass = 'app\models\Tag';
     public $serializer = [
-        'class' => 'yii\rest\Serializer',
+        'class' => 'app\rest\Serializer',
         'collectionEnvelope' => 'data',
     ];
 }
