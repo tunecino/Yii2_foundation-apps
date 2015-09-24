@@ -1,6 +1,7 @@
 <?php
  
 $db     = require(__DIR__ . '/db.php');
+$rules  = require(__DIR__ . '/rules.php');
 $params = require(__DIR__ . '/params.php');
  
 $config = [
@@ -36,26 +37,8 @@ $config = [
             'enablePrettyUrl' => true,
             'enableStrictParsing' => true,
             'showScriptName' => false,
-            'rules' => [
-                [
-                    'class' => 'yii\rest\UrlRule', 
-                    'controller' => [
-                        'images' => 'v1/image',
-                        'tags' => 'v1/tag',                        
-                    ],
-                    // 'extraPatterns' => [
-                    //     //'GET {id}/test' => 'test',
-                    // ],
-                ],
-                [
-                    'class' => 'yii\rest\UrlRule', 
-                    'controller' => [
-                        'tags' => 'v1/tag',
-                    ],
-                    'prefix' => 'images/<imageId:\d+>',
-                ],
-            ],
-        ], 
+            'rules' => $rules,
+        ],
         'db' => $db,
     ],
     'modules' => [

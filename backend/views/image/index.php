@@ -4,7 +4,7 @@ use yii\helpers\Html;
 use yii\grid\GridView;
 
 /* @var $this yii\web\View */
-/* @var $searchModel app\models\ImageSearch */
+/* @var $searchModel app\models\searches\ImageSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = 'Images';
@@ -26,7 +26,8 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\SerialColumn'],
 
             'id',
-            'title',
+            'owner_id',
+            'name',
             'url:url',
 
             ['class' => 'yii\grid\ActionColumn'],

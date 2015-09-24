@@ -30,6 +30,7 @@ class Tag extends \yii\db\ActiveRecord
     {
         return [
             [['name'], 'required'],
+            [['name'], 'unique'],
             [['name'], 'string', 'max' => 12]
         ];
     }
@@ -59,5 +60,19 @@ class Tag extends \yii\db\ActiveRecord
     public function getImages()
     {
         return $this->hasMany(Image::className(), ['id' => 'image_id'])->viaTable('image_has_tag', ['tag_id' => 'id']);
+    }
+
+    /**
+     * @inheritdoc
+     * @return \app\models\queries\TagQuery the active query used by this AR class.
+     */
+    public static function find()
+    {
+        return new \app\models\queries\TagQuery(get_called_class());
+    }
+
+    public function extraFields()
+    {
+        return ['images'];
     }
 }

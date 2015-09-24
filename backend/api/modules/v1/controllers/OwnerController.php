@@ -7,7 +7,7 @@ use yii\filters\Cors;
 use yii\helpers\ArrayHelper;
 use yii\web\BadRequestHttpException;
 
-class TagController extends ActiveController
+class OwnerController extends ActiveController
 {
 	public function behaviors()
 	{
@@ -16,14 +16,14 @@ class TagController extends ActiveController
 	            'class' => Cors::className(),
 	            'cors' => [
 	                'Origin' => ['*'],
-	                'Access-Control-Request-Method' => ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'HEAD', 'OPTIONS'],
+	                'Access-Control-Request-Method' => ['GET'],
 	                'Access-Control-Request-Headers' => ['*'],
 	            ],
 	        ],
 	    ], parent::behaviors());
 	}
 
-    public $modelClass = 'app\models\Tag';
+    public $modelClass = 'app\models\Owner';
     public $reservedParams = ['sort','q'];
 
     public function actions() {
@@ -55,9 +55,9 @@ class TagController extends ActiveController
 			}
 		}
 
-		$searchByAttr['TagSearch'] = $search;
+		$searchByAttr['OwnerSearch'] = $search;
 
-		$searchModel = new \app\models\searches\TagSearch();    
+		$searchModel = new \app\models\searches\OwnerSearch();    
         return $searchModel->search($searchByAttr);     
 	}
 

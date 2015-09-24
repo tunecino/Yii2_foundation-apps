@@ -1,6 +1,6 @@
 <?php
 
-namespace app\models;
+namespace app\models\searches;
 
 use Yii;
 use yii\base\Model;
@@ -18,8 +18,8 @@ class ImageSearch extends Image
     public function rules()
     {
         return [
-            [['id'], 'integer'],
-            [['title', 'url'], 'safe'],
+            [['id', 'owner_id'], 'integer'],
+            [['name', 'url'], 'safe'],
         ];
     }
 
@@ -57,9 +57,10 @@ class ImageSearch extends Image
 
         $query->andFilterWhere([
             'id' => $this->id,
+            'owner_id' => $this->owner_id,
         ]);
 
-        $query->andFilterWhere(['like', 'title', $this->title])
+        $query->andFilterWhere(['like', 'name', $this->name])
             ->andFilterWhere(['like', 'url', $this->url]);
 
         return $dataProvider;

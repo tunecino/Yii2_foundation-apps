@@ -8,9 +8,11 @@ use Yii;
  * This is the model class for table "image".
  *
  * @property integer $id
- * @property string $title
+ * @property integer $owner_id
+ * @property string $name
  * @property string $url
  *
+ * @property Owner $owner
  * @property ImageHasTag[] $imageHasTags
  * @property Tag[] $tags
  */
@@ -30,8 +32,9 @@ class Image extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['title', 'url'], 'required'],
-            [['title'], 'string', 'max' => 60],
+            [['owner_id', 'name', 'url'], 'required'],
+            [['owner_id'], 'integer'],
+            [['name'], 'string', 'max' => 60],
             [['url'], 'string', 'max' => 255],
             [['url'], 'url', 'defaultScheme' => 'http']
         ];
@@ -44,9 +47,18 @@ class Image extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'title' => 'Title',
+            'owner_id' => 'Owner ID',
+            'name' => 'Name',
             'url' => 'Url',
         ];
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getOwner()
+    {
+        return $this->hasOne(Owner::className(), ['id' => 'owner_id']);
     }
 
     /**

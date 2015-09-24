@@ -4,7 +4,7 @@ namespace app\controllers;
 
 use Yii;
 use app\models\Image;
-use app\models\ImageSearch;
+use app\models\searches\ImageSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
