@@ -24,7 +24,7 @@ class OwnerController extends ActiveController
 	}
 
     public $modelClass = 'app\models\Owner';
-    public $reservedParams = ['sort','q'];
+    public $reservedParams = ['sort','q','expand','fields'];
 
     public function actions() {
 

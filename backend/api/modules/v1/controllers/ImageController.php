@@ -24,7 +24,8 @@ class ImageController extends ActiveController
 	}
 
     public $modelClass = 'app\models\Image';
-    public $reservedParams = ['sort','q'];
+    public $reservedParams = ['sort','q','expand','fields'];
+    public $related = ['tag_id'];
 
     public function actions() {
 
@@ -50,6 +51,9 @@ class ImageController extends ActiveController
 				}
 				if (!in_array(strtolower($key), $this->reservedParams) 
 					&& ArrayHelper::keyExists($key, $modelAttr, false)) {
+					$search[$key] = $value;
+				}
+				else if (in_array(strtolower($key), $this->related)) {
 					$search[$key] = $value;
 				}
 			}

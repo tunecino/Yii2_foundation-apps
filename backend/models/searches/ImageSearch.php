@@ -12,13 +12,15 @@ use app\models\Image;
  */
 class ImageSearch extends Image
 {
+    public $tag_id;
+    
     /**
      * @inheritdoc
      */
     public function rules()
     {
         return [
-            [['id', 'owner_id'], 'integer'],
+            [['id', 'owner_id', 'tag_id'], 'integer'],
             [['name', 'url'], 'safe'],
         ];
     }
@@ -51,13 +53,16 @@ class ImageSearch extends Image
 
         if (!$this->validate()) {
             // uncomment the following line if you do not want to return any records when validation fails
-            // $query->where('0=1');
+            $query->where('0=1');
             return $dataProvider;
         }
+
+        $query->joinWith(['tags']);
 
         $query->andFilterWhere([
             'id' => $this->id,
             'owner_id' => $this->owner_id,
+            'tag.id' => $this->tag_id,
         ]);
 
         $query->andFilterWhere(['like', 'name', $this->name])

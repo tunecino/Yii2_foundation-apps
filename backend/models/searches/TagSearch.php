@@ -12,13 +12,15 @@ use app\models\Tag;
  */
 class TagSearch extends Tag
 {
+    public $image_id;
+    
     /**
      * @inheritdoc
      */
     public function rules()
     {
         return [
-            [['id'], 'integer'],
+            [['id', 'image_id'], 'integer'],
             [['name'], 'safe'],
         ];
     }
@@ -41,7 +43,7 @@ class TagSearch extends Tag
      */
     public function search($params)
     {
-        $query = Tag::find();
+        $query = Tag::find()->with(['images']);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -51,12 +53,15 @@ class TagSearch extends Tag
 
         if (!$this->validate()) {
             // uncomment the following line if you do not want to return any records when validation fails
-            // $query->where('0=1');
+            $query->where('0=1');
             return $dataProvider;
         }
 
+        $query->joinWith(['images']);
+
         $query->andFilterWhere([
             'id' => $this->id,
+            'image.id' => $this->image_id,
         ]);
 
         $query->andFilterWhere(['like', 'name', $this->name]);
