@@ -25,7 +25,7 @@ class TagController extends ActiveController
 
     public $modelClass = 'app\models\Tag';
     public $reservedParams = ['sort','q','expand','fields'];
-    public $related = ['image_id'];
+    public $related = ['image_id', 'owner_id'];
 
     public function actions() {
 

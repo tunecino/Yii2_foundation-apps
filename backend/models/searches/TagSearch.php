@@ -13,14 +13,15 @@ use app\models\Tag;
 class TagSearch extends Tag
 {
     public $image_id;
-    
+    public $owner_id;
+
     /**
      * @inheritdoc
      */
     public function rules()
     {
         return [
-            [['id', 'image_id'], 'integer'],
+            [['id', 'image_id', 'owner_id'], 'integer'],
             [['name'], 'safe'],
         ];
     }
@@ -62,6 +63,7 @@ class TagSearch extends Tag
         $query->andFilterWhere([
             'id' => $this->id,
             'image.id' => $this->image_id,
+            'image.owner_id' => $this->owner_id,
         ]);
 
         $query->andFilterWhere(['like', 'name', $this->name]);
