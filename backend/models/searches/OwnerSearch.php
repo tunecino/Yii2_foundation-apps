@@ -12,13 +12,16 @@ use app\models\Owner;
  */
 class OwnerSearch extends Owner
 {
+    public $image_id;
+    public $tag_id;
+
     /**
      * @inheritdoc
      */
     public function rules()
     {
         return [
-            [['id'], 'integer'],
+            [['id', 'image_id', 'tag_id'], 'integer'],
             [['dns'], 'safe'],
         ];
     }
@@ -55,8 +58,13 @@ class OwnerSearch extends Owner
             return $dataProvider;
         }
 
+        $query->joinWith(['images','images.tags']);
+        $query->groupBy(['owner.id']);
+
         $query->andFilterWhere([
-            'id' => $this->id,
+            'owner.id' => $this->id,
+            'image.id' => $this->image_id,
+            'tag.id' => $this->tag_id,
         ]);
 
         $query->andFilterWhere(['like', 'dns', $this->dns]);

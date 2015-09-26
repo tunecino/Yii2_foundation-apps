@@ -44,7 +44,7 @@ class TagSearch extends Tag
      */
     public function search($params)
     {
-        $query = Tag::find()->with(['images']);
+        $query = Tag::find();
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -59,14 +59,15 @@ class TagSearch extends Tag
         }
 
         $query->joinWith(['images']);
+        $query->groupBy(['tag.id']);
 
         $query->andFilterWhere([
-            'id' => $this->id,
+            'tag.id' => $this->id,
             'image.id' => $this->image_id,
             'image.owner_id' => $this->owner_id,
         ]);
 
-        $query->andFilterWhere(['like', 'name', $this->name]);
+        $query->andFilterWhere(['like', 'tag.name', $this->name]);
 
         return $dataProvider;
     }

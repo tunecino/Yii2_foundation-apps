@@ -13,7 +13,8 @@ use app\models\Image;
 class ImageSearch extends Image
 {
     public $tag_id;
-    
+    public $owner_id;
+
     /**
      * @inheritdoc
      */
@@ -58,14 +59,15 @@ class ImageSearch extends Image
         }
 
         $query->joinWith(['tags']);
+        $query->groupBy(['image.id']);
 
         $query->andFilterWhere([
-            'id' => $this->id,
+            'image.id' => $this->id,
             'owner_id' => $this->owner_id,
             'tag.id' => $this->tag_id,
         ]);
 
-        $query->andFilterWhere(['like', 'name', $this->name])
+        $query->andFilterWhere(['like', 'image.name', $this->name])
             ->andFilterWhere(['like', 'url', $this->url]);
 
         return $dataProvider;
