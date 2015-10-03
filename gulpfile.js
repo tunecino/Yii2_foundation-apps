@@ -9,7 +9,7 @@ var $        = require('gulp-load-plugins')();
 var argv     = require('yargs').argv;
 var gulp     = require('gulp');
 var rimraf   = require('rimraf');
-var router   = require('front-router');
+//var router   = require('front-router');
 var sequence = require('run-sequence');
 
 // Check for --production flag
@@ -21,8 +21,9 @@ var isProduction = !!(argv.production);
 var paths = {
   assets: [
     './client/**/*.*',
-    '!./client/templates/**/*.*',
-    '!./client/assets/{scss,js}/**/*.*'
+    //'!./client/templates/**/*.*',
+    '!./client/app/**/*.*',
+    '!./client/assets/scss/**/*.*'
   ],
   // Sass will check these folders for files when you use @import.
   sass: [
@@ -42,20 +43,14 @@ var paths = {
     'bower_components/foundation-apps/js/angular/**/*.js',
     '!bower_components/foundation-apps/js/angular/app.js'
   ],
+  // Templates
+  appTemplates: [
+    './client/app/**/*.html'
+  ],
   // These files are for your app's JavaScript
   appJS: [
-    'bower_components/underscore/underscore.js',
-    'bower_components/restangular/src/restangular.js',
-    'bower_components/angular-restmod/dist/angular-restmod.js',
-    'bower_components/angular-restmod/dist/angular-restmod-bundle.js',
-    'client/assets/js/app.js',
-
-    // Load my modules
-    'client/assets/js/*/module.js',
-    'client/assets/js/*/controllers.js',
-    'client/assets/js/*/factories.js',
-    'client/assets/js/*/services.js',
-    'client/assets/js/*/directives.js'
+    'client/app/app.js',
+    './client/app/**/*.js'
   ]
 }
 
@@ -78,11 +73,14 @@ gulp.task('copy', function() {
 
 // Copies your app's page templates and generates URLs for them
 gulp.task('copy:templates', function() {
-  return gulp.src('./client/templates/**/*.html')
-    .pipe(router({
-      path: 'frontend/assets/js/routes.js',
-      root: 'client'
-    }))
+  //return gulp.src('./client/templates/**/*.html')
+  return gulp.src(paths.appTemplates, {
+    base: './client/app'
+  })
+    // .pipe(router({
+    //   path: 'frontend/assets/js/routes.js',
+    //   root: 'client'
+    // }))
     .pipe(gulp.dest('./frontend/templates'))
   ;
 });
@@ -152,11 +150,11 @@ gulp.task('uglify:app', function() {
   ;
 });
 
-// Starts a test server, which you can view at http://localhost:8080
+// Starts a test server, which you can view at http://localhost:8079
 gulp.task('server', ['build'], function() {
   gulp.src('./frontend')
     .pipe($.webserver({
-      port: 8081,
+      port: 8079,
       host: 'localhost',
       fallback: 'index.html',
       livereload: true,
@@ -176,11 +174,11 @@ gulp.task('default', ['server'], function () {
   gulp.watch(['./client/assets/scss/**/*', './scss/**/*'], ['sass']);
 
   // Watch JavaScript
-  gulp.watch(['./client/assets/js/**/*', './js/**/*'], ['uglify:app']);
+  gulp.watch(['./client/app/**/*.js', './js/**/*'], ['uglify:app']);
 
   // Watch static files
   gulp.watch(['./client/**/*.*', '!./client/templates/**/*.*', '!./client/assets/{scss,js}/**/*.*'], ['copy']);
 
   // Watch app templates
-  gulp.watch(['./client/templates/**/*.html'], ['copy:templates']);
+  gulp.watch(['./client/app/**/*.html'], ['copy:templates']);
 });
