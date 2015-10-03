@@ -8,20 +8,13 @@
 
 	//IndexCtrl.$inject = [];
 
-	function IndexCtrl () {
+	function IndexCtrl (Img) {
 		var vm = this;
-		vm.title = 'Some Title';
-		vm.doSomething = doSomething;
+		//vm.title = 'Some Title';
+		vm.title = _.max([4, 2, 8, 6]);
 
-		var doSomething = function () {};
+		var image = Img.findAll();
 	  
 	}
-
-
-	// MainCtrl.resolve = {
-	//   doSomething: function (SomeService) {
-	//     return SomeService.doSomething();
-	//   }
-	// };
   
 })();

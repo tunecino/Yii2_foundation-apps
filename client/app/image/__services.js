@@ -3,9 +3,20 @@
 
   angular
   	.module('ImageModule')
-  	.service('image', image);
 
+ 	.factory('Img', ['ngActiveResource', function(ngActiveResource) {
 
-  	function image() {}
+      Img.inherits(ngActiveResource.Base);
+
+      Img.api.configure(function(config) {
+        config.baseURL   = "http://foundapps.dev/backend/api";
+        config.resource = "images";
+      });
+
+      function Img(data) {}
+
+      return Img;
+
+    }]);
   
 })();

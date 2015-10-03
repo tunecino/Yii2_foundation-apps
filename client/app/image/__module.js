@@ -2,6 +2,6 @@
   'use strict';
 
   angular
-  	.module('ImageModule', []);
+  	.module('ImageModule', ['ngRoute', 'ngActiveResource']);
   
 })();

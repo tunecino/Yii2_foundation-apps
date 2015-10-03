@@ -23,6 +23,9 @@
     "tests"
   ],
   "dependencies": {
-    "foundation-apps": "~1.1.0"
+    "foundation-apps": "~1.1.0",
+    "lodash": "~3.10.1",
+    "ActiveResource": "https://github.com/brettshollenberger/ActiveResource.git#~0.7.33",
+    "angular-route": "~1.4.7"
   }
 }
