@@ -51,6 +51,7 @@ var paths = {
   appJS: [
     'bower_components/lodash/lodash.js',
     'bower_components/ActiveResource/dist/ng-active-resource.js',
+    'bower_components/active-support/lib/active-support.js',
     'bower_components/angular-route/angular-route.js',
     'client/app/app.js',
     './client/app/**/*.js'

@@ -3,19 +3,19 @@
 
   angular
   	.module('ImageModule')
-    .factory('Image', ImageModel);
+    .factory('Owner', OwnerModel);
 
 
 
-  ImageModel.$inject = ['ngActiveResource'];
+  OwnerModel.$inject = ['ngActiveResource'];
+  
+  function OwnerModel(ngActiveResource) {
+    Owner.inherits(ngActiveResource.Base);
 
-  function ImageModel(ngActiveResource) {
-    Image.inherits(ngActiveResource.Base);
+      //Owner.hasMany('tags');
+      //Owner.belongsTo('owner');
 
-      //Image.hasMany('tags');
-      //Image.belongsTo('owner');
-
-      Image.api.configure(function(config) {
+      Owner.api.configure(function(config) {
         config.baseURL   = "http://foundapps.dev/backend/api";
         // use something generic
         config.format  = "json";
@@ -23,18 +23,18 @@
         // don't append .format e.g. api.edmodo.com/v1/users.json
         config.appendFormat = false;
 
-        config.resource = "images";
+        config.resource = "owners";
       });
 
-      Image.validates({
+      Owner.validates({
           name: { required: true },
       });
 
-      function Image(data) {
+      function Owner(data) {
         this.string('name');
       }
 
-      return Image;
+      return Owner;
   }
   
 })();

@@ -3,19 +3,19 @@
 
   angular
   	.module('ImageModule')
-    .factory('Image', ImageModel);
+    .factory('Tag', TagModel);
 
 
 
-  ImageModel.$inject = ['ngActiveResource'];
+  TagModel.$inject = ['ngActiveResource'];
+  
+  function TagModel(ngActiveResource) {
+    Tag.inherits(ngActiveResource.Base);
 
-  function ImageModel(ngActiveResource) {
-    Image.inherits(ngActiveResource.Base);
+      //Imgage.hasMany('tags');
+      //Imgage.belongsTo('owner');
 
-      //Image.hasMany('tags');
-      //Image.belongsTo('owner');
-
-      Image.api.configure(function(config) {
+      Tag.api.configure(function(config) {
         config.baseURL   = "http://foundapps.dev/backend/api";
         // use something generic
         config.format  = "json";
@@ -23,18 +23,18 @@
         // don't append .format e.g. api.edmodo.com/v1/users.json
         config.appendFormat = false;
 
-        config.resource = "images";
+        config.resource = "tags";
       });
 
-      Image.validates({
+      Tag.validates({
           name: { required: true },
       });
 
-      function Image(data) {
+      function Tag(data) {
         this.string('name');
       }
 
-      return Image;
+      return Tag;
   }
   
 })();
