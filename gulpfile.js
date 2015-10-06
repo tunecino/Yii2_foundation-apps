@@ -50,9 +50,7 @@ var paths = {
   // These files are for your app's JavaScript
   appJS: [
     'bower_components/lodash/lodash.js',
-    'bower_components/ActiveResource/dist/ng-active-resource.js',
-    'bower_components/active-support/lib/active-support.js',
-    'bower_components/angular-route/angular-route.js',
+    'bower_components/restangular/dist/restangular.js',
     'client/app/app.js',
     './client/app/**/*.js'
   ]

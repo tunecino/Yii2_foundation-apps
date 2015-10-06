@@ -1,7 +1,7 @@
 <h1>Images</h1>
 {{ vm.title }}
-<pre ng-repeat="image in vm.images">
-{{ image }}
+<pre>
+{{ vm.images | json }}
 </pre>
 
 <button ng-click="vm.next()">test</button>

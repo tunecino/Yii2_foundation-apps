@@ -10,28 +10,15 @@
       //'foundation.dynamicRouting',
       //'foundation.dynamicRouting.animations'
 
-      // API
-      'ngActiveResource',
-      //'ngRoute',
-
       // My modules
+      'API',
       'SharedModule',
       'HomeModule',
-      //'ImageModule'
+      'ImageModule'
     ])
-    .config(api)
+    .constant('apiUrl', 'http://foundapps.dev/backend/api')
     .config(config)
     .run(run);
-
-    //api.$inject = ['ngActiveResource'];
-    function api(ngActiveResource) {
-      ngActiveResource.api.configure(function(config) {
-        config.baseURL = "http://foundapps.dev/backend/api";
-        config.format  = "json";
-        config.appendFormat = false;
-      });
-
-    }
 
 
   config.$inject = ['$urlRouterProvider', '$locationProvider'];
