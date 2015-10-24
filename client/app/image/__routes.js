@@ -18,6 +18,8 @@
               Collection: 'Collection',
               Images: function(Collection){
                 var images = new Collection('images');
+                //images.select(['id','url']);
+                images.with('tags');
                 return images.load(2);
               }
           },

@@ -15,3 +15,30 @@ helpers.parse_link_header = function(header) {
   	});
   return links;
 };
+
+helpers.parse_url_params = function(url) {
+  var query = url.split('?');
+  return _.isUndefined(query[1]) ? {} : 
+    // split out each assignment
+    _.chain( query[1].split('&') )
+      // Split each array item into [key, value]
+      // ignore empty string if search is empty
+      .map(function(item) { if (item) return item.split('='); })
+      // Remove undefined in the case the search is empty
+      .compact()
+      // Turn [key, value] arrays into object parameters
+      .object()
+      // Return the value of the chain operation
+      .value();
+};
+
+helpers.remove_param_from_url = function(url, param) {
+  var query = url.split('?');
+  return _.isUndefined(query[1]) ? query[0] : 
+    query[0]+'?'+
+    _.chain( query[1].split('&') )
+      .map(function(item) { if (item && item.split('=')[0] !== param) return item; })
+      .compact()
+      .join('&')
+      .value();
+};

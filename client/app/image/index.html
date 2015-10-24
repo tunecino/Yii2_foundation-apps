@@ -10,6 +10,9 @@
 <button ng-click="vm.images.Page(3);">page 3</button>
 .
 <button ng-click="vm.images.Refresh();">refresh</button>
+.
+<button ng-click="vm.images.load(3).with(['tags','owner']);">with tags+owners</button>
+<button ng-click="vm.images.where({name: 'sport'});">where</button>
 
 
 <div class="grid-block">

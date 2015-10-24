@@ -11,7 +11,9 @@
 
     var _route;
     var _perPage;
-    var _links;
+    var _expand;
+    var _fields;
+    var _links = {};
     var _meta = {};
 
     Restangular.setFullResponse(true);
@@ -40,7 +42,7 @@
             var deferred = $q.defer();
             var scope = this;
             _perPage = perPage;
-            Restangular.all(_route).getList({'page':1, 'per-page':perPage})
+            Restangular.all(_route).getList({'page':1, 'per-page':perPage, 'expand':_expand, 'fields':_fields})
             .then(function(collectionData) {
                 var e = scope.setData(collectionData)
                 deferred.resolve(e);
@@ -86,7 +88,8 @@
         Page: function(pageNumber) {
             var scope = this;
             if (_meta.$currentPage === pageNumber) return false;
-            Restangular.all(_route).getList({'page':pageNumber, 'per-page':_perPage})
+            var url = helpers.remove_param_from_url(_links.self, 'page');
+            Restangular.allUrl(_route, url).getList({'page':pageNumber})
             .then(function(collectionData) {
                 scope.setData(collectionData);
             });
@@ -98,10 +101,23 @@
                 scope.setData(collectionData);
             });
         },
+        // fields, expand & filters
+        select: function(fields)   { _fields = _.isArray(fields) ? fields.join() : fields },
+        with:   function(resource) { _expand = _.isArray(resource) ? resource.join() : resource },
+        where:  function(params) { 
+            var scope = this;
+            params['per-page'] = _perPage;
+            params['expand'] = _expand;
+            params['fields'] = _fields;
+            Restangular.all(_route).getList(params)
+            .then(function(collectionData) {
+                scope.setData(collectionData);
+            });
+        },
         // meta pagination methods
-        meta:      function() { return _meta; },
-        isFirst:   function() { return _meta.$currentPage === 1; },
-        isLast:    function() { return _meta.$currentPage === _meta.$pageCount; },
+        meta:      function() { return _meta },
+        isFirst:   function() { return _meta.$currentPage === 1 },
+        isLast:    function() { return _meta.$currentPage === _meta.$pageCount },
         existNext: function() { return typeof _links.next !== "undefined" },
         existPrev: function() { return typeof _links.prev !== "undefined" },
     };
