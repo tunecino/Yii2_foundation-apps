@@ -20,6 +20,7 @@ class TagController extends ActiveController
 	                'Origin' => ['*'],
 	                'Access-Control-Request-Method' => ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'HEAD', 'OPTIONS'],
 	                'Access-Control-Request-Headers' => ['*'],
+	                'Access-Control-Expose-Headers' => ['Link','X-Pagination-Current-Page','X-Pagination-Page-Count','X-Pagination-Per-Page','X-Pagination-Total-Count'],
 	            ],
 	        ],
 	    ], parent::behaviors());

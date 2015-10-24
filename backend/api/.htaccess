@@ -3,7 +3,7 @@ IndexIgnore */*
 
 RewriteEngine on
 
-RewriteBase /backend/api
+# RewriteBase /backend/api
 
 # if a directory or a file exists, use it directly
 RewriteCond %{REQUEST_FILENAME} !-f

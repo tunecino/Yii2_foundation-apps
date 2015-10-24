@@ -14,7 +14,13 @@
           templateUrl: 'templates/image/index.html',
           controllerAs: 'vm',
           controller: 'IndexCtrl',
-          //resolve: MainCtrl.resolve,
+          resolve: {
+              Collection: 'Collection',
+              Images: function(Collection){
+                var images = new Collection('images');
+                return images.load(2);
+              }
+          },
       });
   }
   

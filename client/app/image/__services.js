@@ -3,13 +3,10 @@
 
   angular
   	.module('ImageModule')
-    .factory('Images', ImageService);
+    .factory('ImageService', ImageService);
 
 
-
-  ImageService.$inject = ['Restangular'];
-  function ImageService(Restangular) {
-  	return Restangular.service('images');
-  }
+  //ImageService.$inject = [];
+  function ImageService() {}
   
 })();

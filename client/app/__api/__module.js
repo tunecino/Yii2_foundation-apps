@@ -8,7 +8,7 @@
 
   restangular.$inject = ['RestangularProvider'];
   function restangular(RestangularProvider) {
-  	RestangularProvider.setBaseUrl('http://foundapps.dev/backend/api');
+  	RestangularProvider.setBaseUrl('http://localhost/foundapps/backend/api');
   }
 
 })();

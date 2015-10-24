@@ -16,7 +16,6 @@
       'HomeModule',
       'ImageModule'
     ])
-    .constant('apiUrl', 'http://foundapps.dev/backend/api')
     .config(config)
     .run(run);
 
