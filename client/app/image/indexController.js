@@ -8,18 +8,18 @@
 
 	IndexCtrl.$inject = ['Images'];
 	function IndexCtrl (Images) {
-		var vm = this;
-		//vm.title = 'Some Title';
-		vm.title = _.max([4, 2, 8, 6]);
+		var $ = this;
+		//$.title = 'Some Title';
+		$.title = _.max([4, 2, 8, 6]);
 
-		vm.images = Images;
+		$.images = Images;
 
-		//vm.images = Image.findAll();
-		//vm.images = Image.where({ expand: 'tags', 'per-page':1 });
+		//$.images = Image.findAll();
+		//$.images = Image.where({ expand: 'tags', 'per-page':1 });
 
-		// vm.first = function() {
-		// 	//vm.images = Image.where({ expand: 'tags' });
-		// 	//vm.images.paginate();
+		// $.first = function() {
+		// 	//$.images = Image.where({ expand: 'tags' });
+		// 	//$.images.paginate();
 	  
 	}
   

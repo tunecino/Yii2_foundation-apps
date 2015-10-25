@@ -13,21 +13,27 @@
     var _perPage;
     var _expand;
     var _fields;
+
     var _links = {};
     var _meta = {};
 
+    var _prepareNext;
+
     Restangular.setFullResponse(true);
 
-    function Collection(collectionName) {
+    function Collection(collectionName, prepareNext) {
         if (typeof collectionName === "undefined") {
             throw new Error("collection name is missing");
         }
         _route = collectionName;
+        _prepareNext = _.isUndefined(prepareNext) ? false : prepareNext;
     };
 
     Collection.prototype = {
         setData: function(response) {
             var data = response.data.plain();
+
+            helpers.delete_properties(this);
 
             _meta.$currentPage = +response.headers('X-Pagination-Current-Page');
             _meta.$pageCount   = +response.headers('X-Pagination-Page-Count');
@@ -44,12 +50,15 @@
             _perPage = perPage;
             Restangular.all(_route).getList({'page':1, 'per-page':perPage, 'expand':_expand, 'fields':_fields})
             .then(function(collectionData) {
-                var e = scope.setData(collectionData)
+                var e = scope.setData(collectionData);
                 deferred.resolve(e);
             }, 
             function errorCallback(response) {
                 deferred.reject();
                 console.log("Error: Resource couldn't be loaded | status code:", response.status);
+            })
+            .then(function() {
+                if (_prepareNext) scope._prepareNextPage();
             });
             return deferred.promise;
         },
@@ -67,6 +76,9 @@
             Restangular.allUrl(_route, _links.next).getList()
             .then(function(collectionData) {
                 scope.setData(collectionData);
+            })
+            .then(function() {
+                if (_prepareNext) scope._prepareNextPage();
             });
         },
         prevPage: function() {
@@ -92,6 +104,9 @@
             Restangular.allUrl(_route, url).getList({'page':pageNumber})
             .then(function(collectionData) {
                 scope.setData(collectionData);
+            })
+            .then(function() {
+                if (_prepareNext) scope._prepareNextPage();
             });
         },
         Refresh: function() {
@@ -120,6 +135,16 @@
         isLast:    function() { return _meta.$currentPage === _meta.$pageCount },
         existNext: function() { return typeof _links.next !== "undefined" },
         existPrev: function() { return typeof _links.prev !== "undefined" },
+        // local use
+        _prepareNextPage: function() {
+            var scope = this;
+            if (scope.existNext() === false) return false;
+            Restangular.allUrl(_route, _links.next).getList()
+            .then(function(collectionData) {
+                //scope.setData(collectionData);
+                console.log('prepared next');
+            });
+        },
     };
     return Collection;
 }

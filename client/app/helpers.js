@@ -42,3 +42,7 @@ helpers.remove_param_from_url = function(url, param) {
       .join('&')
       .value();
 };
+
+helpers.delete_properties = function(objectToClean) {
+  for (var x in objectToClean) if (objectToClean.hasOwnProperty(x)) delete objectToClean[x];
+};

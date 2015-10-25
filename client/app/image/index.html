@@ -1,41 +1,51 @@
 <h1>Images</h1>
 
-<button ng-click="vm.images.firstPage();">first</button>
+<p>
+	<a ui-sref="edit({id:'2'})">edit image 2</a>
+	- 
+	<a ui-sref="add">add</a>
+</p>
+
+<button ng-click="$.images.firstPage();">first</button>
 .
-<button ng-click="vm.images.prevPage();">prev</button>
-<button ng-click="vm.images.nextPage();">next</button>
+<button ng-click="$.images.prevPage();">prev</button>
+<button ng-click="$.images.nextPage();">next</button>
 .
-<button ng-click="vm.images.lastPage();">last</button>
+<button ng-click="$.images.lastPage();">last</button>
 .
-<button ng-click="vm.images.Page(3);">page 3</button>
+<button ng-click="$.images.Page(3);">page 3</button>
 .
-<button ng-click="vm.images.Refresh();">refresh</button>
+<button ng-click="$.images.Refresh();">refresh</button>
 .
-<button ng-click="vm.images.load(3).with(['tags','owner']);">with tags+owners</button>
-<button ng-click="vm.images.where({name: 'sport'});">where</button>
+<button ng-click="$.images.load(3).with(['tags','owner']);">with tags+owners</button>
+<button ng-click="$.images.where({name: 'sport'});">where</button>
+
+<input type="text" ng-model="query" ng-change="$.images.where({name: query});">
 
 
 <div class="grid-block">
 	<div class="grid-content">
 		<ul>
-	<li>currentPage: {{vm.images.meta().$currentPage}}</li>
-	<li>pageCount: {{vm.images.meta().$pageCount}}</li>
-	<li>perPage: {{vm.images.meta().$perPage}}</li>
-	<li>totalCount: {{vm.images.meta().$totalCount}}</li>
+	<li>currentPage: {{$.images.meta().$currentPage}}</li>
+	<li>pageCount: {{$.images.meta().$pageCount}}</li>
+	<li>perPage: {{$.images.meta().$perPage}}</li>
+	<li>totalCount: {{$.images.meta().$totalCount}}</li>
 </ul>
 
 
 	</div>
 	<div class="grid-content">
 		<ul>
-	<li>isFirst: {{vm.images.isFirst()}}</li>
-	<li>isLast: {{vm.images.isLast()}}</li>
-	<li>existNext: {{vm.images.existNext()}}</li>
-	<li>existPrev: {{vm.images.existPrev()}}</li>
+	<li>isFirst: {{$.images.isFirst()}}</li>
+	<li>isLast: {{$.images.isLast()}}</li>
+	<li>existNext: {{$.images.existNext()}}</li>
+	<li>existPrev: {{$.images.existPrev()}}</li>
 </ul>
 	</div>
 </div>
 
 <pre>
-{{ vm.images | json }}
+{{ $.images | json }}
 </pre>
+
+<div ui-view></div>

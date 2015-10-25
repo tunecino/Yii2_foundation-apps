@@ -1,0 +1,11 @@
+<div class="modal-overlay is-active" id="modal">
+ <aside class="modal is-active">
+    <a ui-sref="images" class="close-button">×</a>
+	    <div class="grid-content">
+	      <pre>{{$.image | json }}</pre>
+	      <p> your terms and conditions or whatever</p>
+	      <p> {{loading}}</p>
+	      <button type="submit" class="button medium" ng-click="make()">Accept</button>
+	    </div>
+ </aside>
+</div>
