@@ -6,8 +6,8 @@
     .run(interceptors);
 
 
-  interceptors.$inject = ['$rootScope', 'Restangular', 'HTTPCache'];
-  function interceptors($rootScope, Restangular, HTTPCache) {
+  interceptors.$inject = ['$rootScope', 'Restangular', 'HTTPCache', 'FoundationApi'];
+  function interceptors($rootScope, Restangular, HTTPCache, FoundationApi) {
   /** ENABLE CACHING **/
     HTTPCache.init();
 
@@ -40,6 +40,25 @@
         }
         return true; // error not handled
       });
+
+    Restangular.setErrorInterceptor(
+      function(response, deferred, responseHandler) {
+
+        var commonErrors = [400, 401, 403, 404, 405, 415, 429, 500];
+        // more details here : http://www.yiiframework.com/doc-2.0/guide-rest-error-handling.html
+
+        if(commonErrors.indexOf(response.status) > 0) {
+          FoundationApi.publish('main-notifications', { 
+            title: 'Server Error: ' + response.status, 
+            content: response.statusText, 
+            color: 'alert', 
+            autoclose: 4000 
+          });
+          return false; // error handled
+        }
+        return true; // error not handled
+      });
+
   }
   
 })();

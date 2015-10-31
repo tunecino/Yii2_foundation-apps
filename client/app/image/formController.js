@@ -14,7 +14,7 @@
 		if (typeof $.image.url !== "undefined") $.loadedImage = $.image.url;
 
 		$.pattern = {};
-		
+
 		$.submitForm = function() {
 			$.image.save().then(function(response){
 				$state.go('images', {}, { reload: true });
@@ -31,7 +31,7 @@
 		$.loadImage = function() {
 			$.loadedImage = null;
 			delete $scope.form['url'].$error['isImage'];
-			if (!$scope.form.url.$error.url) {
+			if ($.image.url && !$scope.form.url.$error.url) {
 				imageHelpers.isImage($.image.url).then(function(result) {
 		            if (result) {
 		            	$.loadedImage = $.image.url;
