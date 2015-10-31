@@ -9,12 +9,11 @@
   HTTPCache.$inject = ['Restangular', '$cacheFactory'];
   function HTTPCache(Restangular, $cacheFactory) {
     var service = {};
-    var cache;
+    var cache = $cacheFactory('http');
 
     // Creates the cache
     service.init = function() {
-        console.log('caching started !');
-        cache = $cacheFactory('http');
+        console.log('cache started !');
         Restangular.setDefaultHttpFields({cache: cache});
 
         Restangular.setResponseInterceptor(function(response, operation) {
@@ -23,6 +22,11 @@
            }
            return response;
         })
+    }
+
+    service.remove = function() {
+        console.log('getting fresh data !');
+        if (cache) cache.removeAll();
     }
 
     return service;

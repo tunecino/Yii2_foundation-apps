@@ -6,8 +6,8 @@
    .factory('Collection', Collection);
 
 
-  Collection.$inject = ['Restangular', '$q'];
-  function Collection(Restangular, $q) {
+  Collection.$inject = ['Restangular', '$q', 'HTTPCache'];
+  function Collection(Restangular, $q, HTTPCache) {
 
     var _route;
     var _perPage;
@@ -53,9 +53,9 @@
                 var e = scope.setData(collectionData);
                 deferred.resolve(e);
             }, 
-            function errorCallback(response) {
+            function errorCallback(e) {
                 deferred.reject();
-                console.log("Error: Resource couldn't be loaded | status code:", response.status);
+                console.log("Error: Resource couldn't be loaded | status code:", e.status);
             })
             .then(function() {
                 if (_prepareNext) scope._prepareNextPage();
@@ -111,6 +111,7 @@
         },
         Refresh: function() {
             var scope = this;
+            HTTPCache.remove();
             Restangular.allUrl(_route, _links.self).getList()
             .then(function(collectionData) {
                 scope.setData(collectionData);
@@ -135,15 +136,11 @@
         isLast:    function() { return _meta.$currentPage === _meta.$pageCount },
         existNext: function() { return typeof _links.next !== "undefined" },
         existPrev: function() { return typeof _links.prev !== "undefined" },
-        // local use
+        // for local use
         _prepareNextPage: function() {
             var scope = this;
             if (scope.existNext() === false) return false;
-            Restangular.allUrl(_route, _links.next).getList()
-            .then(function(collectionData) {
-                //scope.setData(collectionData);
-                console.log('prepared next');
-            });
+            Restangular.allUrl(_route, _links.next).getList();
         },
     };
     return Collection;

@@ -1,0 +1,43 @@
+<form name="form" role="form" ng-submit="$.submitForm()" novalidate>
+    <div class="modal-overlay is-active" id="modal">
+	 <aside class="modal is-active">
+	    <a ui-sref="images" class="close-button">×</a>
+		    <div class="grid-content">
+
+			  	<input 
+			  		type="text" 
+			  		name="name" 
+			  		placeholder="Name" 
+			  		ng-model="$.image.name" 
+			  		ng-pattern="$.pattern.name" 
+			  		required
+			  	>
+			  	<p ng-show="form.name.$dirty && form.name.$error.required">name is required.</p>
+			  	<p ng-show="form.name.$error.server && form.name.$error.pattern">{{form.url.$error.message}}</p>
+
+			  	<input 
+			  		type="url" 
+			  		name="url" 
+			  		placeholder="url" 
+			  		ng-model="$.image.url" 
+			  		ng-pattern="$.pattern.url" 
+			  		ng-change="$.loadImage()"
+			  		required
+			  	>
+			  	<p ng-show="form.url.$dirty && form.url.$error.required">url is required.</p>
+			  	<p ng-show="form.url.$dirty && form.url.$error.url">doesn't look like a valid url.</p>
+			  	<p ng-show="form.url.$error.isImage">no image found here.</p>
+			  	<p ng-show="form.url.$error.server && form.url.$error.pattern">{{form.url.$error.message}}</p>
+
+				<img ng-show="$.loadedImage" ng-src="{{ $.loadedImage }}">
+
+			    <button 
+			      	type="submit" 
+			      	class="button medium" 
+			      	ng-class="{ 'disabled': form.$invalid }"
+			    >Accept</button>
+			    
+		    </div>
+	 </aside>
+	</div>
+</form>

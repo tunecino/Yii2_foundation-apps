@@ -32,12 +32,35 @@ class Image extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['owner_id', 'name', 'url'], 'required'],
-            [['owner_id'], 'integer'],
+            [['name', 'url'], 'required'],
             [['name'], 'string', 'max' => 60],
             [['url'], 'string', 'max' => 255],
-            [['url'], 'url', 'defaultScheme' => 'http']
+            [['url'], 'url', 'defaultScheme' => 'http'],
+            ['url', 'validateDns'],
         ];
+    }
+
+    public function validateDns($attribute, $params)
+    {
+        $dns = parse_url($this->$attribute)['host'];
+        $owners_list = Owner::find()->select('dns')->asArray()->column();
+
+        if (!in_array($dns, $owners_list)) {
+            $this->addError($attribute, 'image owner or provider is unknown.');
+        }
+
+        if(!is_array(getimagesize($this->$attribute))) {
+             $this->addError($attribute, 'url not pointing to an image.');
+        }
+    }
+
+    public function beforeSave($insert)
+    {
+        $dns = parse_url($this->url)['host'];
+        $owner_id = Owner::find()->where(['dns' => $dns])->scalar();
+        $this->owner_id = $owner_id;
+
+        return parent::beforeSave($insert);
     }
 
     /**
@@ -86,8 +109,15 @@ class Image extends \yii\db\ActiveRecord
         return new \app\models\queries\ImageQuery(get_called_class());
     }
 
+    public function fields()
+    {
+        $fields = parent::fields();
+        unset($fields['owner_id']);
+        return $fields;
+    }
+
     public function extraFields()
     {
-        return ['tags'];
+        return ['owner','tags'];
     }
 }

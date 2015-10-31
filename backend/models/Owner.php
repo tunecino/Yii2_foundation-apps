@@ -29,6 +29,7 @@ class Owner extends \yii\db\ActiveRecord
     {
         return [
             [['dns'], 'required'],
+            [['dns'], 'unique'],
             [['dns'], 'string', 'max' => 45]
         ];
     }

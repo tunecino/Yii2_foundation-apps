@@ -27,10 +27,10 @@
 
     var edit = {
         url: '/edit/{id:[0-9]{1,4}}',
-        templateUrl: 'templates/image/edit.html',
+        templateUrl: 'templates/image/form.html',
         parent: 'images',
         controllerAs: '$',
-        controller: 'EditCtrl',
+        controller: 'FormCtrl',
         resolve: {
             Collection: 'Collection',
             Image: function(Restangular, $stateParams){
@@ -42,10 +42,16 @@
 
     var add = {
         url: '/add',
-        templateUrl: 'templates/image/create.html',
+        templateUrl: 'templates/image/form.html',
         parent: 'images',
         controllerAs: '$',
-        controller: 'CreateCtrl'
+        controller: 'FormCtrl',
+        resolve: {
+            Collection: 'Collection',
+            Image: function(Restangular){
+              return Restangular.one('images');
+            }
+        },
     }
 
     $stateProvider
