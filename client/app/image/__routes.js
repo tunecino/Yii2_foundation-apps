@@ -16,11 +16,11 @@
         controller: 'IndexCtrl',
         resolve: {
             Collection: 'Collection',
-            Images: function(Collection){
+            Images: function(Collection) {
               var images = new Collection('images', true);
               //images.select(['id','url']);
               images.with('tags');
-              return images.load(2);
+              return images.load(6);
             }
         },
     };

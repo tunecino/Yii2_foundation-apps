@@ -12,6 +12,8 @@ $config = [
     'bootstrap' => ['log'],
     'components' => [
         'request' => [
+            'class' => '\yii\web\Request',
+            'enableCookieValidation' => false,
             // Enable JSON Input:
             'parsers' => [
                 'application/json' => 'yii\web\JsonParser',
@@ -19,7 +21,8 @@ $config = [
         ],
         'user' => [
             'identityClass' => 'app\models\User',
-            'enableAutoLogin' => false,
+            'enableSession' => false,
+            'loginUrl' => null,
         ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,

@@ -32,7 +32,7 @@ class Image extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'url'], 'required'],
+            [['name', 'url', 'owner_id'], 'required'],
             [['name'], 'string', 'max' => 60],
             [['url'], 'string', 'max' => 255],
             [['url'], 'url', 'defaultScheme' => 'http'],
@@ -56,10 +56,11 @@ class Image extends \yii\db\ActiveRecord
 
     public function beforeSave($insert)
     {
-        $dns = parse_url($this->url)['host'];
-        $owner_id = Owner::find()->where(['dns' => $dns])->scalar();
-        $this->owner_id = $owner_id;
-
+        if (!array_key_exists('owner_id', $this->getDirtyAttributes())) {
+            $dns = parse_url($this->url)['host'];
+            $owner_id = Owner::find()->where(['dns' => $dns])->scalar();
+            $this->owner_id = $owner_id;
+        }
         return parent::beforeSave($insert);
     }
 
@@ -73,6 +74,17 @@ class Image extends \yii\db\ActiveRecord
             'owner_id' => 'Owner ID',
             'name' => 'Name',
             'url' => 'Url',
+        ];
+    }
+
+    public function behaviors()
+    {
+        return [
+            'linkGroupBehavior' => [
+                'class' => \yii2tech\ar\linkmany\LinkManyBehavior::className(),
+                'relation' => 'tags', // relation, which will be handled
+                'relationReferenceAttribute' => 'tagIds', // virtual attribute, which is used for related records specification
+            ],
         ];
     }
 

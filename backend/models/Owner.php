@@ -45,6 +45,17 @@ class Owner extends \yii\db\ActiveRecord
         ];
     }
 
+    public function behaviors()
+    {
+        return [
+            'linkGroupBehavior' => [
+                'class' => \yii2tech\ar\linkmany\LinkManyBehavior::className(),
+                'relation' => 'images', // relation, which will be handled
+                'relationReferenceAttribute' => 'imageIds', // virtual attribute, which is used for related records specification
+            ],
+        ];
+    }
+
     /**
      * @return \yii\db\ActiveQuery
      */
@@ -60,5 +71,10 @@ class Owner extends \yii\db\ActiveRecord
     public static function find()
     {
         return new \app\models\queries\OwnerQuery(get_called_class());
+    }
+
+    public function extraFields()
+    {
+        return ['images'];
     }
 }

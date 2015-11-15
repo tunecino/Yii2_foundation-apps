@@ -17,7 +17,15 @@
 
 		$.submitForm = function() {
 			$.image.save().then(function(response){
-				$state.go('images', {}, { reload: true });
+				// if saved try to find obj by id in $parent images
+				var obj = _.findWhere($scope.$parent.$.images,{id:response.data.id});
+				// not found means is NewRecord -> just go back & update
+				if (_.isUndefined(obj)) $state.go('images', {}, { reload: true });
+				else {
+					// object updated on server -> manually update parent collection & go back
+					_.assign(obj, response.data.plain());
+					$state.go('images');
+				}
 			},
 			function errorCallback(errors) {
 				_.each(errors.data, function(e, key) {

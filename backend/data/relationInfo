@@ -1,0 +1,79 @@
+<?php
+
+    private function relationInfo($model, $name, $related_id = false)
+    {
+        $relation = $model->getRelation($name, false);
+        if ($relation === null) return null;
+
+        $info = [];
+
+        $info['class'] = $relation->modelClass;
+
+        if ($relation->multiple === true && $relation->via === null) $info['type'] = 'is_child';
+        else if ($relation->multiple === true) $info['type'] = 'many_many';
+        else $info['type'] = 'is_parent';
+
+        $pk = implode(',', array_values($model->tableSchema->primaryKey));
+        $info['key'] = $info['type'] === 'is_child' ? null : $relation->link[$pk];
+
+        if ($related_id) {
+
+            if ($model->getIsNewRecord()) 
+                throw new \yii\base\InvalidCallException('Unable to check relation. model is not yet saved.');
+
+            if ($info['type'] == 'is_parent') 
+                $info['related'] = isset($model->{$info['key']}) && $model->{$info['key']} === (int)$related_id;
+
+            if ($info['type'] == 'many_many')
+                $info['related'] = (new \yii\db\Query())
+                    ->from(reset($relation->via->from))
+                    ->where([ key($relation->via->link) => $model->id, $info['key'] => $related_id ])
+                    ->exists();
+        }
+
+        return $info;
+    }
+    
+?>
+
+
+$model = \app\models\Tag::findOne(1);
+$image = \app\models\Image::findOne(2); 
+$owner = \app\models\Owner::findOne(1); 
+
+$test = [];
+
+$test['tag->images'] = $this->relationInfo($model, 'images', 2);
+$test['tag->owner']  = $this->relationInfo($model, 'owner', 1);
+
+$test['image->tags'] = $this->relationInfo($image, 'tags', 1);
+$test['image->owner']  = $this->relationInfo($image, 'owner', 1);
+
+$test['owner->tags'] = $this->relationInfo($owner, 'tags', 1);
+$test['owner->images']  = $this->relationInfo($owner, 'images', 1);
+
+return $test;
+
+{
+  "tag->images": {
+    "type": "many_many",
+    "key": "image_id",
+    "related": true
+  },
+  "tag->owner": null,
+  "image->tags": {
+    "type": "many_many",
+    "key": "tag_id",
+    "related": true
+  },
+  "image->owner": {
+    "type": "is_parent",
+    "key": "owner_id",
+    "related": true
+  },
+  "owner->tags": null,
+  "owner->images": {
+    "type": "is_child",
+    "key": null
+  }
+}

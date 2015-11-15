@@ -46,3 +46,10 @@ helpers.remove_param_from_url = function(url, param) {
 helpers.delete_properties = function(objectToClean) {
   for (var x in objectToClean) if (objectToClean.hasOwnProperty(x)) delete objectToClean[x];
 };
+
+helpers.replaceItemById = function(list, element) {
+    var index = _.indexOf(list, _.find(list, { id : element.id }));
+    console.log('indexfromHelper',index);
+    list.splice(index, 1 , element);
+    return list;
+  };

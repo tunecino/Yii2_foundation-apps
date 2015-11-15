@@ -8,6 +8,7 @@
 
   interceptors.$inject = ['$rootScope', 'Restangular', 'HTTPCache', 'FoundationApi'];
   function interceptors($rootScope, Restangular, HTTPCache, FoundationApi) {
+    
   /** ENABLE CACHING **/
     HTTPCache.init();
 

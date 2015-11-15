@@ -17,7 +17,8 @@
         "php": ">=5.4.0",
         "yiisoft/yii2": ">=2.0.4",
         "yiisoft/yii2-bootstrap": "*",
-        "yiisoft/yii2-swiftmailer": "*"
+        "yiisoft/yii2-swiftmailer": "*",
+        "yii2tech/ar-linkmany": "1.0.x-dev"
     },
     "require-dev": {
         "yiisoft/yii2-codeception": "*",

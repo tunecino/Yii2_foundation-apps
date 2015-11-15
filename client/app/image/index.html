@@ -1,10 +1,17 @@
 <h1>Images</h1>
 
-<p>
+<style type="text/css">
+	.card {
+		height: 300px;
+		background-color: #EDEDED;
+		background-size: cover;
+	}
+</style>
+<!-- <p>
 	<a ui-sref="edit({id:'2'})">edit image 2</a>
 	- 
 	<a ui-sref="add">add</a>
-</p>
+</p> -->
 
 <button ng-click="$.images.firstPage();">first</button>
 .
@@ -12,15 +19,45 @@
 <button ng-click="$.images.nextPage();">next</button>
 .
 <button ng-click="$.images.lastPage();">last</button>
-.
-<button ng-click="$.images.Page(3);">page 3</button>
-.
-<button ng-click="$.images.Refresh();">refresh</button>
-.
-<button ng-click="$.images.load(3).with(['tags','owner']);">with tags+owners</button>
-<button ng-click="$.images.where({name: 'sport'});">where</button>
+<p>
+	<a ng-click="$.images.Page(3);">page 3</a>
+	|
+	<a ng-click="$.images.Refresh();">refresh</a>
+	|
+	<a ng-click="$.images.load(3).with(['tags','owner']);">with tags+owners</a>
+	|
+	<a ng-click="$.images.where({name: 'sport'});">where</a>
+</p>
 
-<input type="text" ng-model="query" ng-change="$.images.where({name: query});">
+<input type="text" placeholder="Search by name" ng-model="query" ng-change="$.images.where({name: query});">
+
+<div class="grid-block small-up-1 medium-up-2 large-up-3">
+    <div class="grid-content" ng-repeat="image in $.images">
+        <div class="card" style="background-image: url({{image.url}})">
+
+            <div class="card-divider grid-block" ng-init="editBtn=false">
+                <div class="small-8" style="padding-left:10px;">{{ image.name }}</div>
+                <div class="small-4" style="padding-right:10px;">
+	                <a class="float-right" ng-hide="editBtn" ng-click="editBtn=!editBtn">Edit</a>
+	                <span ng-show="editBtn">
+	                	<a class="float-right" style="margin-left:10px;">Tags</a>
+	                	<a ui-sref="edit({id:image.id})" style="margin-left:10px;" class="float-right">Image</a>
+	                	<a class="float-right" ng-click="editBtn=!editBtn" style="color:gray;font-size:10px;">cancel</a>
+	                </span>
+	            </div>
+			</div>
+
+            <div class="card-section" >
+            	
+            	<div class="secondary button" ng-repeat="tag in image.tags">{{ tag.name }}</div> 
+            	<div class="secondary button" ng-repeat="tag in image.tags">{{ tag.name }}</div> 
+            	<div class="secondary button" ng-repeat="tag in image.tags">{{ tag.name }}</div> 
+            </div>
+        </div>
+    </div>
+</div>
+
+
 
 
 <div class="grid-block">
@@ -44,8 +81,8 @@
 	</div>
 </div>
 
-<pre>
+<!-- <pre>
 {{ $.images | json }}
-</pre>
+</pre> -->
 
 <div ui-view></div>
