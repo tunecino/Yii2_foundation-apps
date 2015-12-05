@@ -10,7 +10,7 @@
     <!-- <script src="./assets/js/routes.js"></script> -->
     <script src="./assets/js/app.js"></script>
   </head>
-  <body>
+  <body ng-controller="AuthController as session">
 
     <zf-offcanvas position="left" id="menu-off-canvas">
         <a zf-close class="close-button">x</a>
@@ -18,6 +18,9 @@
             <li class="title">Menu</li>
             <li ui-sref-active="is-active"><a ui-sref="home">Home</a></li>
             <li ui-sref-active="is-active"><a ui-sref="images">demo</a></li>
+            <li ui-sref-active="is-active"><a ui-sref="login">login</a></li>
+            <li ui-sref-active="is-active"><a ui-sref="signup">signup</a></li>
+            <li ui-sref-active="is-active"><a ui-sref="recovery">recovery</a></li>
 
         </ul>
     </zf-offcanvas>
@@ -27,6 +30,7 @@
         <ul class="condense menu-bar ng-scope">
               <li><a href="#" zf-open="menu-off-canvas">M</a></li>
               <li class="right"><a href="#">is_loading: {{loading}}</a></li>
+              <li><a ng-if="session.currentUser" ng-click="session.logout()">logout ({{session.currentUser.name}})</a></li>
         </ul>
       </div>
       <div class="grid-content">

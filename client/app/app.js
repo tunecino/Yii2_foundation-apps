@@ -14,7 +14,8 @@
       'API',
       'SharedModule',
       'HomeModule',
-      'ImageModule'
+      'ImageModule',
+      'LoginModule'
     ])
     .config(config)
     .run(run);

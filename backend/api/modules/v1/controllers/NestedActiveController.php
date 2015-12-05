@@ -35,12 +35,16 @@ class NestedActiveController extends ActiveController
     public function behaviors()
     {
         $behaviors = parent::behaviors();
-        $behaviors['corsFilter'] = [
+        // SEE https://github.com/yiisoft/yii2/pull/8626
+        //$behaviors['corsFilter'] = [
+        $behaviors[0] = [
             'class' => \yii\filters\Cors::className(),
             'cors' => [
                 'Origin' => ['*'],
                 'Access-Control-Request-Method' => ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'HEAD', 'OPTIONS'],
                 'Access-Control-Request-Headers' => ['*'],
+                //'Access-Control-Request-Headers' => ['Origin', 'X-Requested-With', 'Content-Type', 'Accept', 'Authorization'],
+                'Access-Control-Allow-Credentials' => true,
                 'Access-Control-Expose-Headers' => [
                     // Calulated links
                     'Link',
@@ -51,8 +55,14 @@ class NestedActiveController extends ActiveController
                     'X-Pagination-Total-Count'
                 ],
                 // Allow OPTIONS caching
-                'Access-Control-Max-Age' => 3600,
+                //'Access-Control-Max-Age' => 3600,
+
             ],
+        ];
+        //$behaviors['authenticator'] = [
+        $behaviors[1] = [
+            'class' => \yii\filters\auth\HttpBearerAuth::className(),
+            'except' => ['options'],
         ];
         return $behaviors;
     }
@@ -69,7 +79,7 @@ class NestedActiveController extends ActiveController
     }
 
 
-    public function actionLink($id = '')
+    public function actionRelationships($id = '')
     {
         $ids = preg_split('/\s*,\s*/', $id, -1, PREG_SPLIT_NO_EMPTY);
         $verb = Yii::$app->request->method;
@@ -133,15 +143,16 @@ class NestedActiveController extends ActiveController
     }
 
 
-    public function actions() {
+    public function actions() 
+    {
         $actions = parent::actions();
         $actions['index']['prepareDataProvider'] = [$this, 'indexDataProvider'];
         return $actions;
     }
 
 
-    public function indexDataProvider() {
-
+    public function indexDataProvider() 
+    {
         $params = Yii::$app->request->queryParams;
         $model = new $this->modelClass;
         $modelAttr = $model->attributes;

@@ -7,8 +7,8 @@ $nestedPatterns = [
     '' => 'options',
 ];
 $nestedExtraPatterns = [
-    'PUT,PATCH,DELETE {id}' => 'link',
-    'DELETE' => 'link',
+    'PUT,PATCH,DELETE {id}' => 'relationships',
+    'DELETE' => 'relationships',
 ];
 
 return [
@@ -86,5 +86,30 @@ return [
         'controller' => ['images' => 'v1/image'],
         'prefix' => 'tags/<tag_id:\d+>/owners/<owner_id:\d+>',
         'patterns' => $nestedPatterns,
+    ],
+    /**
+     *   authentication
+     */
+    [
+        'class' => 'yii\rest\UrlRule', 
+        'controller' => ['auth'  => 'v1/auth'],
+        'patterns' => [
+            'POST login' => 'login',
+            'GET logout' => 'logout',
+            'OPTIONS login' => 'options',
+            'OPTIONS logout' => 'options',
+        ]
+    ],
+    [
+        'class' => 'yii\rest\UrlRule', 
+        'controller' => ['account' => 'auth/default'], 
+        'patterns' => [
+            'GET test'  => 'test',
+            'GET logout'  => 'logout',
+            'POST login'  => 'login',
+            'POST signup' => 'signup',
+            'POST req-reset-pass' => 'request-password-reset',
+            'POST reset-pass' => 'reset-password',
+        ],
     ],
 ];

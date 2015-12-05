@@ -19,7 +19,6 @@
 
     var _prepareNext;
 
-    Restangular.setFullResponse(true);
 
     function Collection(collectionName, prepareNext) {
         if (typeof collectionName === "undefined") {

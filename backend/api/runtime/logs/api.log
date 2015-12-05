@@ -1,0 +1,163 @@
+2015-12-04 22:42:15 [127.0.0.1][-][-][error][ReflectionException] exception 'ReflectionException' with message 'Class app\api\modules\v1\Module does not exist' in /var/www/html/foundapps/backend/vendor/yiisoft/yii2/di/Container.php:415
+Stack trace:
+#0 /var/www/html/foundapps/backend/vendor/yiisoft/yii2/di/Container.php(415): ReflectionClass->__construct('app\api\modules...')
+#1 /var/www/html/foundapps/backend/vendor/yiisoft/yii2/di/Container.php(358): yii\di\Container->getDependencies('app\api\modules...')
+#2 /var/www/html/foundapps/backend/vendor/yiisoft/yii2/di/Container.php(151): yii\di\Container->build('app\api\modules...', Array, Array)
+#3 /var/www/html/foundapps/backend/vendor/yiisoft/yii2/BaseYii.php(344): yii\di\Container->get('app\api\modules...', Array, Array)
+#4 /var/www/html/foundapps/backend/vendor/yiisoft/yii2/base/Module.php(354): yii\BaseYii::createObject(Array, Array)
+#5 /var/www/html/foundapps/backend/vendor/yiisoft/yii2/base/Module.php(511): yii\base\Module->getModule('v1')
+#6 /var/www/html/foundapps/backend/vendor/yiisoft/yii2/base/Module.php(449): yii\base\Module->createController('v1/image/index')
+#7 /var/www/html/foundapps/backend/vendor/yiisoft/yii2/web/Application.php(84): yii\base\Module->runAction('v1/image/index', Array)
+#8 /var/www/html/foundapps/backend/vendor/yiisoft/yii2/base/Application.php(375): yii\web\Application->handleRequest(Object(yii\web\Request))
+#9 /var/www/html/foundapps/backend/api/index.php(13): yii\base\Application->run()
+#10 {main}
+2015-12-04 22:42:15 [127.0.0.1][-][-][info][application] $_COOKIE = [
+    '_csrf' => '9735e3aae98c8e55d0e3567c16a8a39a1655a9510b7568b4cce3d6738f630498a:2:{i:0;s:5:\"_csrf\";i:1;s:32:\"cvbMdgjM7V-XUvj6HE98jGpB62OYdevA\";}'
+]
+
+$_SERVER = [
+    'REDIRECT_STATUS' => '200'
+    'HTTP_HOST' => 'localhost'
+    'HTTP_CONNECTION' => 'keep-alive'
+    'HTTP_CACHE_CONTROL' => 'no-cache'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (X11; Linux i686) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.73 Safari/537.36'
+    'HTTP_POSTMAN_TOKEN' => 'da460ce7-f14f-4d7e-0287-155422ca34aa'
+    'HTTP_ACCEPT' => '*/*'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate, sdch'
+    'HTTP_ACCEPT_LANGUAGE' => 'en-US,en;q=0.8,fr;q=0.6,es;q=0.4,ar;q=0.2'
+    'HTTP_COOKIE' => '_csrf=9735e3aae98c8e55d0e3567c16a8a39a1655a9510b7568b4cce3d6738f630498a%3A2%3A%7Bi%3A0%3Bs%3A5%3A%22_csrf%22%3Bi%3A1%3Bs%3A32%3A%22cvbMdgjM7V-XUvj6HE98jGpB62OYdevA%22%3B%7D'
+    'PATH' => '/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'
+    'SERVER_SIGNATURE' => '<address>Apache/2.4.7 (Ubuntu) Server at localhost Port 80</address>
+'
+    'SERVER_SOFTWARE' => 'Apache/2.4.7 (Ubuntu)'
+    'SERVER_NAME' => 'localhost'
+    'SERVER_ADDR' => '127.0.0.1'
+    'SERVER_PORT' => '80'
+    'REMOTE_ADDR' => '127.0.0.1'
+    'DOCUMENT_ROOT' => '/var/www/html'
+    'REQUEST_SCHEME' => 'http'
+    'CONTEXT_PREFIX' => ''
+    'CONTEXT_DOCUMENT_ROOT' => '/var/www/html'
+    'SERVER_ADMIN' => 'webmaster@localhost'
+    'SCRIPT_FILENAME' => '/var/www/html/foundapps/backend/api/index.php'
+    'REMOTE_PORT' => '51326'
+    'REDIRECT_URL' => '/foundapps/backend/api/images'
+    'GATEWAY_INTERFACE' => 'CGI/1.1'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'REQUEST_METHOD' => 'GET'
+    'QUERY_STRING' => ''
+    'REQUEST_URI' => '/foundapps/backend/api/images'
+    'SCRIPT_NAME' => '/foundapps/backend/api/index.php'
+    'PHP_SELF' => '/foundapps/backend/api/index.php'
+    'REQUEST_TIME_FLOAT' => 1449268935.64
+    'REQUEST_TIME' => 1449268935
+]
+2015-12-04 22:44:11 [127.0.0.1][-][-][error][ReflectionException] exception 'ReflectionException' with message 'Class modules\v1\Module does not exist' in /var/www/html/foundapps/backend/vendor/yiisoft/yii2/di/Container.php:415
+Stack trace:
+#0 /var/www/html/foundapps/backend/vendor/yiisoft/yii2/di/Container.php(415): ReflectionClass->__construct('modules\v1\Modu...')
+#1 /var/www/html/foundapps/backend/vendor/yiisoft/yii2/di/Container.php(358): yii\di\Container->getDependencies('modules\v1\Modu...')
+#2 /var/www/html/foundapps/backend/vendor/yiisoft/yii2/di/Container.php(151): yii\di\Container->build('modules\v1\Modu...', Array, Array)
+#3 /var/www/html/foundapps/backend/vendor/yiisoft/yii2/BaseYii.php(344): yii\di\Container->get('modules\v1\Modu...', Array, Array)
+#4 /var/www/html/foundapps/backend/vendor/yiisoft/yii2/base/Module.php(354): yii\BaseYii::createObject(Array, Array)
+#5 /var/www/html/foundapps/backend/vendor/yiisoft/yii2/base/Module.php(511): yii\base\Module->getModule('v1')
+#6 /var/www/html/foundapps/backend/vendor/yiisoft/yii2/base/Module.php(449): yii\base\Module->createController('v1/image/index')
+#7 /var/www/html/foundapps/backend/vendor/yiisoft/yii2/web/Application.php(84): yii\base\Module->runAction('v1/image/index', Array)
+#8 /var/www/html/foundapps/backend/vendor/yiisoft/yii2/base/Application.php(375): yii\web\Application->handleRequest(Object(yii\web\Request))
+#9 /var/www/html/foundapps/backend/api/index.php(13): yii\base\Application->run()
+#10 {main}
+2015-12-04 22:44:11 [127.0.0.1][-][-][info][application] $_COOKIE = [
+    '_csrf' => '9735e3aae98c8e55d0e3567c16a8a39a1655a9510b7568b4cce3d6738f630498a:2:{i:0;s:5:\"_csrf\";i:1;s:32:\"cvbMdgjM7V-XUvj6HE98jGpB62OYdevA\";}'
+]
+
+$_SERVER = [
+    'REDIRECT_STATUS' => '200'
+    'HTTP_HOST' => 'localhost'
+    'HTTP_CONNECTION' => 'keep-alive'
+    'HTTP_CACHE_CONTROL' => 'no-cache'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (X11; Linux i686) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.73 Safari/537.36'
+    'HTTP_POSTMAN_TOKEN' => 'fa42ce92-f395-a0da-fcaf-99726080a137'
+    'HTTP_ACCEPT' => '*/*'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate, sdch'
+    'HTTP_ACCEPT_LANGUAGE' => 'en-US,en;q=0.8,fr;q=0.6,es;q=0.4,ar;q=0.2'
+    'HTTP_COOKIE' => '_csrf=9735e3aae98c8e55d0e3567c16a8a39a1655a9510b7568b4cce3d6738f630498a%3A2%3A%7Bi%3A0%3Bs%3A5%3A%22_csrf%22%3Bi%3A1%3Bs%3A32%3A%22cvbMdgjM7V-XUvj6HE98jGpB62OYdevA%22%3B%7D'
+    'PATH' => '/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'
+    'SERVER_SIGNATURE' => '<address>Apache/2.4.7 (Ubuntu) Server at localhost Port 80</address>
+'
+    'SERVER_SOFTWARE' => 'Apache/2.4.7 (Ubuntu)'
+    'SERVER_NAME' => 'localhost'
+    'SERVER_ADDR' => '127.0.0.1'
+    'SERVER_PORT' => '80'
+    'REMOTE_ADDR' => '127.0.0.1'
+    'DOCUMENT_ROOT' => '/var/www/html'
+    'REQUEST_SCHEME' => 'http'
+    'CONTEXT_PREFIX' => ''
+    'CONTEXT_DOCUMENT_ROOT' => '/var/www/html'
+    'SERVER_ADMIN' => 'webmaster@localhost'
+    'SCRIPT_FILENAME' => '/var/www/html/foundapps/backend/api/index.php'
+    'REMOTE_PORT' => '51328'
+    'REDIRECT_URL' => '/foundapps/backend/api/images'
+    'GATEWAY_INTERFACE' => 'CGI/1.1'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'REQUEST_METHOD' => 'GET'
+    'QUERY_STRING' => ''
+    'REQUEST_URI' => '/foundapps/backend/api/images'
+    'SCRIPT_NAME' => '/foundapps/backend/api/index.php'
+    'PHP_SELF' => '/foundapps/backend/api/index.php'
+    'REQUEST_TIME_FLOAT' => 1449269051.547
+    'REQUEST_TIME' => 1449269051
+]
+2015-12-04 22:44:54 [127.0.0.1][-][-][error][ReflectionException] exception 'ReflectionException' with message 'Class app\api\modules\v1\Module does not exist' in /var/www/html/foundapps/backend/vendor/yiisoft/yii2/di/Container.php:415
+Stack trace:
+#0 /var/www/html/foundapps/backend/vendor/yiisoft/yii2/di/Container.php(415): ReflectionClass->__construct('app\api\modules...')
+#1 /var/www/html/foundapps/backend/vendor/yiisoft/yii2/di/Container.php(358): yii\di\Container->getDependencies('app\api\modules...')
+#2 /var/www/html/foundapps/backend/vendor/yiisoft/yii2/di/Container.php(151): yii\di\Container->build('app\api\modules...', Array, Array)
+#3 /var/www/html/foundapps/backend/vendor/yiisoft/yii2/BaseYii.php(344): yii\di\Container->get('app\api\modules...', Array, Array)
+#4 /var/www/html/foundapps/backend/vendor/yiisoft/yii2/base/Module.php(354): yii\BaseYii::createObject(Array, Array)
+#5 /var/www/html/foundapps/backend/vendor/yiisoft/yii2/base/Module.php(511): yii\base\Module->getModule('v1')
+#6 /var/www/html/foundapps/backend/vendor/yiisoft/yii2/base/Module.php(449): yii\base\Module->createController('v1/image/index')
+#7 /var/www/html/foundapps/backend/vendor/yiisoft/yii2/web/Application.php(84): yii\base\Module->runAction('v1/image/index', Array)
+#8 /var/www/html/foundapps/backend/vendor/yiisoft/yii2/base/Application.php(375): yii\web\Application->handleRequest(Object(yii\web\Request))
+#9 /var/www/html/foundapps/backend/api/index.php(13): yii\base\Application->run()
+#10 {main}
+2015-12-04 22:44:53 [127.0.0.1][-][-][info][application] $_COOKIE = [
+    '_csrf' => '1fd77a1ea216f52b6d5e0413f4af053dd4dd58f6b7128b1acb790ad61e4807c5a:2:{i:0;s:5:\"_csrf\";i:1;s:32:\"WFsn3XhORgzo8ItublEQPcnBoR_vSlQK\";}'
+    'PHPSESSID' => 'p376kd5rnq421u0lq2u0ik6h22'
+]
+
+$_SERVER = [
+    'REDIRECT_STATUS' => '200'
+    'HTTP_HOST' => 'localhost'
+    'HTTP_CONNECTION' => 'keep-alive'
+    'HTTP_CACHE_CONTROL' => 'max-age=0'
+    'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8'
+    'HTTP_UPGRADE_INSECURE_REQUESTS' => '1'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (X11; Linux i686) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.73 Safari/537.36'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate, sdch'
+    'HTTP_ACCEPT_LANGUAGE' => 'en-US,en;q=0.8,fr;q=0.6,es;q=0.4,ar;q=0.2'
+    'HTTP_COOKIE' => '_csrf=1fd77a1ea216f52b6d5e0413f4af053dd4dd58f6b7128b1acb790ad61e4807c5a%3A2%3A%7Bi%3A0%3Bs%3A5%3A%22_csrf%22%3Bi%3A1%3Bs%3A32%3A%22WFsn3XhORgzo8ItublEQPcnBoR_vSlQK%22%3B%7D; PHPSESSID=p376kd5rnq421u0lq2u0ik6h22'
+    'PATH' => '/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'
+    'SERVER_SIGNATURE' => '<address>Apache/2.4.7 (Ubuntu) Server at localhost Port 80</address>
+'
+    'SERVER_SOFTWARE' => 'Apache/2.4.7 (Ubuntu)'
+    'SERVER_NAME' => 'localhost'
+    'SERVER_ADDR' => '127.0.0.1'
+    'SERVER_PORT' => '80'
+    'REMOTE_ADDR' => '127.0.0.1'
+    'DOCUMENT_ROOT' => '/var/www/html'
+    'REQUEST_SCHEME' => 'http'
+    'CONTEXT_PREFIX' => ''
+    'CONTEXT_DOCUMENT_ROOT' => '/var/www/html'
+    'SERVER_ADMIN' => 'webmaster@localhost'
+    'SCRIPT_FILENAME' => '/var/www/html/foundapps/backend/api/index.php'
+    'REMOTE_PORT' => '51331'
+    'REDIRECT_URL' => '/foundapps/backend/api/images'
+    'GATEWAY_INTERFACE' => 'CGI/1.1'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'REQUEST_METHOD' => 'GET'
+    'QUERY_STRING' => ''
+    'REQUEST_URI' => '/foundapps/backend/api/images'
+    'SCRIPT_NAME' => '/foundapps/backend/api/index.php'
+    'PHP_SELF' => '/foundapps/backend/api/index.php'
+    'REQUEST_TIME_FLOAT' => 1449269093.759
+    'REQUEST_TIME' => 1449269093
+]

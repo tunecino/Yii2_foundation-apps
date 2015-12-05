@@ -51,6 +51,7 @@ var paths = {
   appJS: [
     'bower_components/lodash/lodash.js',
     'bower_components/restangular/dist/restangular.js',
+    'bower_components/a0-angular-storage/dist/angular-storage.js',
     'client/app/app.js',
     './client/app/**/*.js'
   ]
