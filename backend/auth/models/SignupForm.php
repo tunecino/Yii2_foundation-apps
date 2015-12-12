@@ -1,9 +1,10 @@
 <?php
 namespace app\auth\models;
 
-use app\auth\models\User;
-use yii\base\Model;
 use Yii;
+use yii\base\Model;
+use yii\web\ServerErrorHttpException;
+use app\auth\models\User;
 
 /**
  * Signup form
@@ -48,8 +49,17 @@ class SignupForm extends Model
             $user->username = $this->username;
             $user->email = $this->email;
             $user->setPassword($this->password);
-            $user->generateAuthKey();
+
             if ($user->save()) {
+                $session = new Session;
+                $session->user_id = $user->getPrimaryKey();
+                $session->generateAuthKey();
+
+                if ($session->save() === true) {
+                    $user->auth_key = $session->auth_key;
+                }
+                else throw new ServerErrorHttpException('Failed for unknown reason.');
+
                 return $user;
             }
         }

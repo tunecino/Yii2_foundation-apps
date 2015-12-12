@@ -23,12 +23,6 @@ class AccountController extends \yii\rest\Controller
 
     public function behaviors()
     {
-        $behaviors = parent::behaviors();
-        $behaviors['authenticator'] = [
-            'class' => HttpBearerAuth::className(),
-            'only' => ['logout','test'],
-        ];
-
         return \yii\helpers\ArrayHelper::merge([
             [
                 'class' => \yii\filters\Cors::className(),
@@ -39,14 +33,17 @@ class AccountController extends \yii\rest\Controller
                     'Access-Control-Request-Headers' => ['*'],
                 ],
             ],
-        ], $behaviors);
+        ], parent::behaviors());
+    }
+    
+
+    public function beforeAction($action)
+    {
+        if (!parent::beforeAction($action)) return false;
+        if ($this->action->id !== 'options') $this->checkClientAccess();
+        return true;
     }
 
-    public function actionTest()
-    {
-        return 'access OK for '.Yii::$app->user->identity->username.' !';
-        //return Yii::$app->params['user.passwordResetTokenExpire'];
-    }
 
     public function actionOptions ()
     {
@@ -61,59 +58,61 @@ class AccountController extends \yii\rest\Controller
     public function actionLogin()
     {
         $params = Yii::$app->getRequest()->getBodyParams();
-        $supportedClients = Yii::$app->params['clients'];
-
-        if (!isset($params['client_id']) or !isset($supportedClients[$params['client_id']]))
-            throw new \yii\web\ForbiddenHttpException('Request Not allowed.');
-
         $model = new LoginForm();
-        if ($model->load($params, '') && $model->login()) {
+
+        if ($model->load($params, '') && $model->login())
+        {
+            $access_token = Yii::$app->security->generateRandomString();
+            $expire = Yii::$app->params['accessTokenExpire'];
+
+            $cache = Yii::$app->cache;
+            if ($cache->add($access_token, ['id' => Yii::$app->user->identity->id], $expire) === false)
+                throw new ServerErrorHttpException('Failed for unknown reason.');
+
             return [
                 'user' => [ 
                     'name' => Yii::$app->user->identity->username,
-                    'access_token' => Yii::$app->user->identity->authKey,
-                ],
+                    'refresh_token' => Yii::$app->user->identity->authKey,
+                    'access_token' => $access_token,
+                    'expires_at' => time() + $expire,
+                ]
             ];
-        } else {
+        } 
+        else {
             $model->validate();
             return $model;
         }
     }
 
 
-    public function actionLogout()
-    {
-        $user = User::findIdentity(Yii::$app->user->id);
-        $user->generateAuthKey();
-
-        if ($user->save() === false) {
-            throw new ServerErrorHttpException('Failed to logout for unknown reason.');
-        }
-
-        Yii::$app->getResponse()->setStatusCode(204);
-    }
-
-
     public function actionSignup()
     {
         $params = Yii::$app->getRequest()->getBodyParams();
-        $supportedClients = Yii::$app->params['clients'];
-
-        if (!isset($params['client_id']) or !isset($supportedClients[$params['client_id']]))
-            throw new \yii\web\ForbiddenHttpException('Request Not allowed.');
-
         $model = new SignupForm();
-        if ($model->load($params, '') && $user = $model->signup()) {
-            if (Yii::$app->getUser()->login($user)) {
+
+        if ($model->load($params, '') && $user = $model->signup())
+        {
+            if (Yii::$app->getUser()->login($user))
+            {
+
+                $access_token = Yii::$app->security->generateRandomString();
+                $expire = Yii::$app->params['accessTokenExpire'];
+
+                $cache = Yii::$app->cache;
+                if ($cache->add($access_token, ['id' => Yii::$app->user->identity->id], $expire) === false)
+                    throw new ServerErrorHttpException('Failed for unknown reason.');
+
                 return [
                     'user' => [ 
                         'name' => Yii::$app->user->identity->username,
-                        'access_token' => Yii::$app->user->identity->authKey,
-                    ],
+                        'refresh_token' => Yii::$app->user->identity->authKey,
+                        'access_token' => $access_token,
+                        'expires_at' => time() + $expire,
+                    ]
                 ];
             }
             else throw new ServerErrorHttpException('Failed for unknown reason.');
-        }
+        } 
         else {
             $model->validate();
             return $model;
@@ -124,16 +123,10 @@ class AccountController extends \yii\rest\Controller
     public function actionRequestPasswordReset()
     {
         $params = Yii::$app->getRequest()->getBodyParams();
-        $supportedClients = Yii::$app->params['clients'];
-
-        if (!isset($params['client_id']) or !isset($supportedClients[$params['client_id']]))
-            throw new \yii\web\ForbiddenHttpException('Request Not allowed.');
-
         $model = new PasswordResetRequestForm();
+
         if ($model->load($params, '') && $model->validate()) {
-            if ($model->sendEmail()) {
-                return ['success' => 'Check your email for further instructions.'];
-            }
+            if ($model->sendEmail()) return ['success' => 'Check your email for further instructions.'];
             else throw new ServerErrorHttpException('Sorry, we are unable to reset password for email provided.');
         }
         else {
@@ -146,10 +139,6 @@ class AccountController extends \yii\rest\Controller
     {
         $params = Yii::$app->getRequest()->getBodyParams();
         $token = isset($params['token']) ? $params['token'] : null;
-        $supportedClients = Yii::$app->params['clients'];
-
-        if (!isset($params['client_id']) or !isset($supportedClients[$params['client_id']]))
-            throw new \yii\web\ForbiddenHttpException('Request Not allowed.');
 
         try {
             $model = new ResetPasswordForm($token);
@@ -159,10 +148,19 @@ class AccountController extends \yii\rest\Controller
 
         if ($model->load(Yii::$app->getRequest()->getBodyParams(), '') && $model->validate() && $model->resetPassword()) {
             return ['success' => 'New password was saved.'];
-        } else {
+        } 
+        else {
             $model->validate();
             return $model;
         }
+    }
+
+    protected function checkClientAccess()
+    {
+        $params = Yii::$app->getRequest()->getBodyParams();
+        $supportedClients = Yii::$app->params['clients'];
+        if (!isset($params['client_id']) or !isset($supportedClients[$params['client_id']]))
+            throw new \yii\web\ForbiddenHttpException('Request Not allowed.');
     }
 
 }

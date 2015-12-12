@@ -34,37 +34,34 @@ class NestedActiveController extends ActiveController
 
     public function behaviors()
     {
-        $behaviors = parent::behaviors();
-        // SEE https://github.com/yiisoft/yii2/pull/8626
-        //$behaviors['corsFilter'] = [
-        $behaviors[0] = [
-            'class' => \yii\filters\Cors::className(),
-            'cors' => [
-                'Origin' => ['*'],
-                'Access-Control-Request-Method' => ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'HEAD', 'OPTIONS'],
-                'Access-Control-Request-Headers' => ['*'],
-                //'Access-Control-Request-Headers' => ['Origin', 'X-Requested-With', 'Content-Type', 'Accept', 'Authorization'],
-                'Access-Control-Allow-Credentials' => true,
-                'Access-Control-Expose-Headers' => [
-                    // Calulated links
-                    'Link',
-                    // Pagination
-                    'X-Pagination-Current-Page',
-                    'X-Pagination-Page-Count',
-                    'X-Pagination-Per-Page',
-                    'X-Pagination-Total-Count'
+        return \yii\helpers\ArrayHelper::merge([
+            [
+                'class' => \yii\filters\Cors::className(),
+                'cors' => [
+                    'Origin' => ['*'],
+                    'Access-Control-Request-Method' => ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'HEAD', 'OPTIONS'],
+                    'Access-Control-Request-Headers' => ['*'],
+                    //'Access-Control-Request-Headers' => ['Origin', 'X-Requested-With', 'Content-Type', 'Accept', 'Authorization'],
+                    'Access-Control-Allow-Credentials' => true,
+                    'Access-Control-Expose-Headers' => [
+                        // Calulated links
+                        'Link',
+                        // Pagination
+                        'X-Pagination-Current-Page',
+                        'X-Pagination-Page-Count',
+                        'X-Pagination-Per-Page',
+                        'X-Pagination-Total-Count'
+                    ],
                 ],
-                // Allow OPTIONS caching
-                //'Access-Control-Max-Age' => 3600,
-
             ],
-        ];
-        //$behaviors['authenticator'] = [
-        $behaviors[1] = [
-            'class' => \yii\filters\auth\HttpBearerAuth::className(),
-            'except' => ['options'],
-        ];
-        return $behaviors;
+            [
+                'class' => \yii\filters\auth\HttpBearerAuth::className(),
+                'except' => ['options'],
+            ],
+        ], parent::behaviors());
+
+
+        
     }
 
     public function beforeAction($action) {

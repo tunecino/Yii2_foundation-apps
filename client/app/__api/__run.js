@@ -6,29 +6,8 @@
     .run(interceptors);
 
 
-  interceptors.$inject = ['$rootScope', 'Restangular', 'HTTPCache', 'FoundationApi', 'UserService'];
-  function interceptors($rootScope, Restangular, HTTPCache, FoundationApi, UserService) {
-    
-  /** AUTHENTICATION **/
-    Restangular.addRequestInterceptor(
-      function(element, operation, what, url) {
-        var currentUser = UserService.getCurrentUser(),
-            access_token = currentUser ? currentUser.access_token : null;
-
-        if (access_token === null) HTTPCache.remove();
-        Restangular.setDefaultHeaders({'Authorization': 'Bearer ' + access_token});
-
-        return element;
-    });
-
-    // Restangular.addErrorInterceptor(
-    //   function(response, deferred, responseHandler) {
-    //       if (response.status === 401) {
-    //           $rootScope.$broadcast('unauthorized');
-    //           return false; // error handled
-    //       }
-    //     return true; // error not handled
-    //   });
+  interceptors.$inject = ['$rootScope', 'Restangular', 'HTTPCache', 'FoundationApi', 'UserService', 'AuthService', 'AuthRoutes', '$http'];
+  function interceptors($rootScope, Restangular, HTTPCache, FoundationApi, UserService, AuthService, AuthRoutes, $http) {
 
   /** ENABLE CACHING **/
     HTTPCache.init();
@@ -54,16 +33,15 @@
         return data;
     });
 
-    // Restangular.addErrorInterceptor(
-    //   function(response, deferred, responseHandler) {
-    //     console.log('errorS',pendingRequests);
-    //     pendingRequests--;
-    //     if (pendingRequests == 0) {
-    //         $rootScope.loading = false;
-    //     }
-    //     console.log('errorE:',pendingRequests);
-    //     return true; // error not handled
-    //   });
+    /** AUTHENTICATION request interceptor **/
+    Restangular.setFullRequestInterceptor(function(element, operation, route, url, headers, params, httpConfig) {
+      if (_.include(AuthRoutes,route)) {
+          var currentUser = UserService.getCurrentUser(),
+              access_token = currentUser && UserService.isLogged() ? currentUser.access_token : null;
+          headers.Authorization = 'Bearer ' + access_token;
+      }
+      return { element:element, params:params, headers:headers, httpConfig:httpConfig };
+    });
 
     Restangular.addErrorInterceptor(
       function(response, deferred, responseHandler) {
@@ -73,10 +51,20 @@
             $rootScope.loading = false;
         }
         
-        /** AUTHENTICATION **/
+        /** AUTHENTICATION response interceptor **/
         if (response.status === 401) {
-            $rootScope.$broadcast('unauthorized');
-            return false; // error handled
+
+          if (UserService.getCurrentUser()) {
+              console.log('new access_token sould be requested');
+              var refresh = AuthService.refresh(response.config.url);
+              if (refresh) refresh.then(function(access_token) {
+                  response.config.headers.Authorization = 'Bearer ' + access_token;
+                  $http(response.config).then(responseHandler, deferred.reject);
+              });
+          }
+
+          else $rootScope.$broadcast('unauthorized');
+          return false; // error handled
         }
 
         var commonErrors = [400, 403, 404, 405, 415, 429, 500];

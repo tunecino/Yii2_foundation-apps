@@ -6,3 +6,4 @@ build
 frontend
 runtime/*
 .sass-cache
+dump.rdb

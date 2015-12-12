@@ -24,7 +24,7 @@
 	    });
 
 	    $rootScope.$on('unauthorized', function() {
-	    	$.currentUser = null;
+	    	if ($.currentUser) $.currentUser = null;
 	        $state.go('login');
 	    });
 	}

@@ -6,6 +6,7 @@ use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 use yii\web\IdentityInterface;
+use app\auth\models;
 
 /**
  * User model
@@ -25,6 +26,8 @@ class User extends ActiveRecord implements IdentityInterface
 {
     const STATUS_DELETED = 0;
     const STATUS_ACTIVE = 10;
+
+    public $auth_key;
 
     /**
      * @inheritdoc
@@ -68,8 +71,13 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public static function findIdentityByAccessToken($token, $type = null)
     {
-        $user = static::findOne(['auth_key' => $token]);
-        if ($user !== null && $user->isAuthKeyValid($token)) return $user;
+        //$user = static::findOne($session->user_id);
+        $session = Session::findOne(['auth_key' => $token]);
+        $user = ($session && $session->isValid()) ? $session->user : null;
+        if ($user !== null) {
+            $user->auth_key = $session->auth_key;
+            return $user;
+        }
 
         return null;
     }
@@ -121,19 +129,6 @@ class User extends ActiveRecord implements IdentityInterface
     }
 
     /**
-     * Finds out if authKey is valid
-     *
-     * @param string $token authKey
-     * @return boolean
-     */
-    public static function isAuthKeyValid($token)
-    {
-        $timestamp = (int) substr($token, strrpos($token, '_') + 1);
-        $expire = Yii::$app->params['authKeyExpire'];
-        return $timestamp + $expire >= time();
-    }
-
-    /**
      * @inheritdoc
      */
     public function getId()
@@ -154,6 +149,7 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public function validateAuthKey($authKey)
     {
+        die('fuck on auth/User::validateAuthKey');
         return $this->getAuthKey() === $authKey;
     }
 
@@ -183,6 +179,7 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public function generateAuthKey()
     {
+        die('fuck on auth/User::generateAuthKey');
         $this->auth_key = Yii::$app->security->generateRandomString() . '_' . time();
     }
 

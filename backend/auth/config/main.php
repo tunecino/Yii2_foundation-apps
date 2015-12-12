@@ -1,8 +1,9 @@
 <?php
  
-$db     = require(__DIR__ . '/../../config/db.php');
+$db     = require(__DIR__ . '/db.php');
 $rules  = require(__DIR__ . '/rules.php');
 $params = require(__DIR__ . '/params.php');
+$cache  = require(__DIR__ . '/cache.php');
  
 $config = [
     'id' => 'auth',
@@ -19,6 +20,10 @@ $config = [
             'parsers' => [
                 'application/json' => 'yii\web\JsonParser',
             ]
+        ],
+        'response' => [
+            'format' => yii\web\Response::FORMAT_JSON,
+            'charset' => 'UTF-8',
         ],
         'user' => [
             'identityClass' => 'app\auth\models\User',
@@ -61,6 +66,7 @@ $config = [
             'rules' => $rules,
         ],
         'db' => $db,
+        'cache' => $cache,
     ],
 
     'modules' => [

@@ -19,26 +19,60 @@
         .all('account')
         .customPOST(credentials, 'login', undefined, {})
         .then(function(response){
-          var user = response.data.user;
-          UserService.setCurrentUser(user);
-          $rootScope.$broadcast('authorized');
+            var user = response.data.user;
+            UserService.setCurrentUser(user);
+            $rootScope.$broadcast('authorized');
         });
     };
 
     service.logout = function() {
+      var currentUser = UserService.getCurrentUser(),
+        refresh_token = currentUser ? currentUser.refresh_token : null,
+         access_token = currentUser ? currentUser.access_token : null;
+
       return Restangular
         .withConfig(function(RestangularConfigurer) {
             RestangularConfigurer.setBaseUrl(ApiAuthUrl);
          })
-        .all('account')
-        .customGET('logout')
+        .all('token')
+        .customPOST({client_id: ClientID, token: access_token}, 'revoke', undefined, {'Authorization': 'Bearer ' + refresh_token})
         .then(function(response){
-          UserService.setCurrentUser(null);
-          $rootScope.$broadcast('unauthorized');
+            UserService.setCurrentUser(null);
+            $rootScope.$broadcast('unauthorized');
         }, function(error) {
             console.log(error);
         });
     };
+
+
+    service.refresh = function(route) {
+      var currentUser = UserService.getCurrentUser(),
+          refresh_token = currentUser ? currentUser.refresh_token : null;
+
+      var preRequest = Restangular
+          .withConfig(function(RestangularConfigurer) {
+              RestangularConfigurer.setBaseUrl(ApiAuthUrl);
+           })
+          .all('token');
+
+      var new_route = preRequest.getRequestedUrl()+'/refresh';
+
+      if (new_route === route) {
+          UserService.setCurrentUser(null);
+          $rootScope.$broadcast('unauthorized');
+          return null;
+      }
+
+      else return preRequest
+      .customPOST({client_id: ClientID}, 'refresh', undefined, {'Authorization': 'Bearer ' + refresh_token})
+      .then(function(response){
+          var token = response.data.token;
+          UserService.updateCurrentUser(token);
+          $rootScope.$broadcast('authorized');
+          return token.access_token;
+      });
+    };
+
 
     service.signup = function(user) {
       user.client_id = ClientID;
@@ -49,10 +83,10 @@
         .all('account')
         .customPOST(user, 'signup', undefined, {})
         .then(function(response){
-          console.log('inside signup',response);
-          var user = response.data.user;
-          UserService.setCurrentUser(user);
-          $rootScope.$broadcast('authorized');
+            console.log('inside signup',response);
+            var user = response.data.user;
+            UserService.setCurrentUser(user);
+            $rootScope.$broadcast('authorized');
         });
     };
 

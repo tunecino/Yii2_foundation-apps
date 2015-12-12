@@ -58,15 +58,19 @@ class LoginForm extends Model
     {
         if ($this->validate()) {
             $user = $this->getUser();
-            $user->generateAuthKey(); 
-            if ($user->save(false) && !$user->hasErrors()) {
+
+            $session = new Session;
+            $session->user_id = $user->id;
+            $session->generateAuthKey();
+
+            if ($session->save() === true) {
+                $user->auth_key = $session->auth_key;
                 return Yii::$app->user->login($user);
-            } else {
-                throw new ServerErrorHttpException('Failed for unknown reason.');
             }
-        } else {
-            return false;
+            else throw new ServerErrorHttpException('Failed for unknown reason.');
         }
+        
+        return false;
     }
 
     /**

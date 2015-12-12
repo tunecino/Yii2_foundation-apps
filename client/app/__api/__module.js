@@ -6,6 +6,7 @@
     .constant('ClientID', 'public_web_abc123')
     .constant('ApiBaseUrl', 'http://localhost/foundapps/backend/api')
     .constant('ApiAuthUrl', 'http://localhost/foundapps/backend/auth')
+    .constant('AuthRoutes', ['images'])
   	.config(restangular);
 
 
