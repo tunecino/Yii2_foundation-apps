@@ -63,7 +63,7 @@ class AccountController extends \yii\rest\Controller
         if ($model->load($params, '') && $model->login())
         {
             $access_token = Yii::$app->security->generateRandomString();
-            $expire = Yii::$app->params['accessTokenExpire'];
+            $expire = $model->rememberMe ? Yii::$app->params['retained_accessTokenExpire'] : Yii::$app->params['accessTokenExpire'];
 
             $cache = Yii::$app->cache;
             if ($cache->add($access_token, ['id' => Yii::$app->user->identity->id], $expire) === false)
@@ -75,6 +75,7 @@ class AccountController extends \yii\rest\Controller
                     'refresh_token' => Yii::$app->user->identity->authKey,
                     'access_token' => $access_token,
                     'expires_at' => time() + $expire,
+                    'dies_after' => $expire,
                 ]
             ];
         } 

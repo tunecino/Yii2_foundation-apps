@@ -1,9 +1,9 @@
 <?php
  
-$db     = require(__DIR__ . '/db.php');
+$db     = require(__DIR__ . '/../../config/db.php');
 $rules  = require(__DIR__ . '/rules.php');
 $params = require(__DIR__ . '/params.php');
-$cache  = require(__DIR__ . '/cache.php');
+$cache  = require(__DIR__ . '/../../config/cache.php');
  
 $config = [
     'id' => 'auth',

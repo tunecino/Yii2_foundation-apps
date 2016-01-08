@@ -71,9 +71,9 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public static function findIdentityByAccessToken($token, $type = null)
     {
-        //$user = static::findOne($session->user_id);
         $session = Session::findOne(['auth_key' => $token]);
         $user = ($session && $session->isValid()) ? $session->user : null;
+        
         if ($user !== null) {
             $user->auth_key = $session->auth_key;
             return $user;

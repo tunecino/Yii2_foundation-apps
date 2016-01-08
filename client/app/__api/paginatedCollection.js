@@ -13,6 +13,7 @@
     var _perPage;
     var _expand;
     var _fields;
+    var _params;
 
     var _links = {};
     var _meta = {};
@@ -121,10 +122,16 @@
         with:   function(resource) { _expand = _.isArray(resource) ? resource.join() : resource },
         where:  function(params) { 
             var scope = this;
-            params['per-page'] = _perPage;
-            params['expand'] = _expand;
-            params['fields'] = _fields;
-            Restangular.all(_route).getList(params)
+
+            if (_.isUndefined(_params)) {
+                _params = params;
+                _params['per-page'] = _perPage;
+                _params['expand'] = _expand;
+                _params['fields'] = _fields;
+            }
+            else _.extend(_params,params);
+
+            Restangular.all(_route).getList(_params)
             .then(function(collectionData) {
                 scope.setData(collectionData);
             });

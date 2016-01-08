@@ -15,4 +15,12 @@ class ImageController extends NestedActiveController
         'class'=>'app\models\searches\ImageSearch',
     ];
 
+    public function checkAccess($action, $model = null, $params = [])
+    {
+        if ($action === 'update' or $action === 'delete') {
+            if ($model->user_id !== \Yii::$app->user->identity->id)
+                throw new \yii\web\ForbiddenHttpException('You can only '.$action.' images that you\'ve added.');
+        }
+    }
+
 }

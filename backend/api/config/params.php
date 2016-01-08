@@ -1,5 +1,5 @@
 <?php
 
 return [
-    'authKeyExpire' => 3600,
+    // 'authKeyExpire' => 3600,
 ];

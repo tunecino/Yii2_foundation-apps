@@ -90,19 +90,19 @@
 // $font-weight-bold: bold;
 
 // We use these to control various global styles
-// $body-background: #fff;
-// $body-font-color: #222;
-// $body-font-family: "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
+$body-background: #F5F5F6;
+$body-font-color: #34495e;
+$body-font-family: Roboto, "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
 // $body-font-weight: $font-weight-normal;
 // $body-font-style: normal;
 // $body-antialiased: true;
 
 // Application Colors
-// $primary-color: #00558b;
-// $secondary-color: #f1f1f1;
-// $alert-color: #F04124;
-// $info-color: #A0D3E8;
-// $success-color: #43AC6A;
+$primary-color: #777E84;
+$secondary-color: #DDDDDD;
+$alert-color: #DA5754;
+$info-color: #3498db;
+$success-color: #1abc9c;
 // $warning-color: #F08A24;
 // $dark-color: #232323;
 // $gray: #dfdfdf;
@@ -139,10 +139,10 @@
 // $header-font-family: $body-font-family;
 // $header-font-weight: $font-weight-normal;
 // $header-font-style: $font-weight-normal;
-// $header-font-color: #222;
-// $header-line-height: 1.4;
-// $header-top-margin: .2rem;
-// $header-bottom-margin: .5rem;
+$header-font-color: $body-font-color;
+$header-line-height: 2;
+$header-top-margin: 1rem;
+$header-bottom-margin: 1rem;
 // $header-text-rendering: optimizeLegibility;
 
 // We use these to control header font sizes
@@ -220,11 +220,11 @@
 // $definition-list-margin-bottom: rem-calc(12);
 
 // We use these to style blockquotes
-// $blockquote-font-color: scale-color($header-font-color, $lightness: 35%);
-// $blockquote-padding: rem-calc(9 20 0 19);
+$blockquote-font-color: scale-color($primary-color, $lightness: 5%);
+//$blockquote-padding: rem-calc(9 20 0 19);
 // $blockquote-border: 1px solid #ddd;
-// $blockquote-cite-font-size: rem-calc(13);
-// $blockquote-cite-font-color: scale-color($header-font-color, $lightness: 23%);
+$blockquote-cite-font-size: rem-calc(12);
+$blockquote-cite-font-color: scale-color($primary-color, $lightness: 35%);
 // $blockquote-cite-link-color: $blockquote-cite-font-color;
 
 // Acronym styles
@@ -233,7 +233,7 @@
 // 5. Grid
 // - - - - - - - - - - - - - - -
 
-// $container-width: rem-calc(900);
+$container-width: rem-calc(1100);
 // $block-padding: $global-padding;
 // $total-columns: 12;
 // $block-grid-max-size: 6; 
@@ -241,20 +241,20 @@
 // 6. Button
 // - - - - - - - - - - - - - - -
 
-// $button-padding: 0.85em 1em;
+$button-padding: 0.55em 0.8em;
 // $button-margin: 0 $global-padding $global-padding 0;
 // $button-style: solid;
 // $button-background: $primary-color;
 // $button-background-hover: scale-color($button-background, $lightness: -15%);
 // $button-color: auto;
-// $button-radius: 0;
+$button-radius: 3px;
 // $button-sizes: (
 //   tiny: 0.7,
 //   small: 0.8,
 //   medium: 1,
 //   large: 1.3,
 // );
-// $button-font-size: 0.9rem;
+$button-font-size: 1.1rem;
 // $button-opacity-disabled: 0.5;
 // $button-tag-selector: false; 
 
@@ -336,7 +336,7 @@
 // - - - - - - - - - - - - - - -
 
 // $closebutton-position: (top right);
-// $closebutton-size: 2em;
+$closebutton-size: 1.5em;
 // $closebutton-lineheight: 0.5;
 // $closebutton-color: #999;
 // $closebutton-color-hover: #333;
@@ -359,7 +359,7 @@
 // $input-background-hover: $input-background;
 // $input-background-focus: $input-background;
 // $input-background-disabled: smartscale($input-background);
-// $input-border: 1px solid #ccc;
+$input-border: 1px solid #ccc;
 // $input-border-hover: 1px solid #bbb;
 // $input-border-focus: 1px solid #999;
 // $input-cursor-disabled: not-allowed;
@@ -438,9 +438,9 @@
 // 17. Modal
 // - - - - - - - - - - - - - - -
 
-// $modal-background: #fff;
+$modal-background: $body-background;
 // $modal-border: 0;
-// $modal-radius: 0px;
+$modal-radius: 3px;
 // $modal-shadow: none;
 // $modal-zindex: 1000;
 // $modal-sizes: (
@@ -451,7 +451,7 @@
 // );
 
 // $modal-overlay-class: 'modal-overlay';
-// $modal-overlay-background: rgba(#333, 0.7); 
+$modal-overlay-background: rgba(39, 43, 43, 0.7);
 
 // 18. Motion UI
 // - - - - - - - - - - - - - - -
@@ -539,10 +539,10 @@
 // $offcanvas-size-horizontal: 250px;
 // $offcanvas-size-vertical: 250px;
 
-// $offcanvas-background: #fff;
+$offcanvas-background: #fff;
 // $offcanvas-color: isitlight($offcanvas-background);
 // $offcanvas-padding: 0;
-// $offcanvas-shadow: 3px 0 10px rgba(black, 0.25);
+$offcanvas-shadow: none;
 // $offcanvas-animation-speed: 0.25s;
 
 // $offcanvas-frame-selector: '.grid-frame'; 

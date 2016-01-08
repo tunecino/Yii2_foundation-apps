@@ -18,10 +18,14 @@
             Collection: 'Collection',
             Images: function(Collection) {
               var images = new Collection('images', true);
-              //images.select(['id','url']);
+              images.select(['id','name','url']);
               images.with('tags');
               return images.load(6);
-            }
+            },
+            Restangular: 'Restangular',
+            Tags: function(Restangular){
+              return Restangular.all('tags').getList();
+            },
         },
     };
 
@@ -32,10 +36,12 @@
         controllerAs: '$',
         controller: 'FormCtrl',
         resolve: {
-            Collection: 'Collection',
+            Restangular: 'Restangular',
             Image: function(Restangular, $stateParams){
-              console.log('resolving id',$stateParams.id);
-              return Restangular.one('images', $stateParams.id).get();
+              return Restangular.one('images', $stateParams.id).get({expand:'uploader'});
+            },
+            Owners: function(Restangular){
+              return Restangular.all('owners').getList({fields:'dns'});
             }
         },
     };
@@ -47,9 +53,12 @@
         controllerAs: '$',
         controller: 'FormCtrl',
         resolve: {
-            Collection: 'Collection',
+            Restangular: 'Restangular',
             Image: function(Restangular){
               return Restangular.one('images');
+            },
+            Owners: function(Restangular){
+              return Restangular.all('owners').getList({fields:'dns'});
             }
         },
     }

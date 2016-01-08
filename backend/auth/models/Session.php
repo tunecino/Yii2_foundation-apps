@@ -10,6 +10,7 @@ use Yii;
  * @property integer $id
  * @property integer $user_id
  * @property string $auth_key
+ * @property boolean $retained 
  * @property integer $created_at
  * @property integer $updated_at
  *
@@ -34,6 +35,7 @@ class Session extends \yii\db\ActiveRecord
             [['user_id', 'auth_key'], 'required'],
             [['user_id'], 'integer'],
             [['auth_key'], 'unique'],
+            [['retained'], 'boolean'],
             [['auth_key'], 'string', 'max' => 45]
         ];
     }
@@ -54,6 +56,7 @@ class Session extends \yii\db\ActiveRecord
             'id' => 'ID',
             'user_id' => 'User ID',
             'auth_key' => 'Auth Key',
+            'retained' => 'Retained',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
         ];
@@ -69,7 +72,7 @@ class Session extends \yii\db\ActiveRecord
 
     public function isValid()
     {
-        $expire = Yii::$app->params['authKeyExpire'];
+        $expire = $this->retained ? Yii::$app->params['retained_authKeyExpire'] : Yii::$app->params['authKeyExpire'];
         return $this->created_at + $expire >= time();
     }
 

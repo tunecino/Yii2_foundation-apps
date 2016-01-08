@@ -5,7 +5,7 @@ namespace app\api\modules\v1\controllers;
 class OwnerController extends NestedActiveController
 {
     public $modelClass = 'app\models\Owner';
-    public $relationAttribute = 'OwnerIds';
+    public $relationAttribute = 'ownerIds';
     public $relations  = [
     	'image_id' => 'images',
     	'tag_id' => 'tags'

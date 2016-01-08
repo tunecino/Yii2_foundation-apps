@@ -1,2 +1,103 @@
 @import "settings";
 @import "foundation";
+@import "image";
+@import "login";
+
+input[type] { 
+	border-radius: $button-radius;
+	height: 3rem;
+}
+
+.burger-btn {
+	height:	1rem;
+	margin:	0 auto !important;
+}
+
+.full-loader {
+	height: 4rem;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin: 15rem auto;
+}
+
+.margin-br1 {margin-bottom: 1rem}
+
+.off-canvas ~ .grid-frame {
+	background-color: $body-background;
+}
+.top {
+	.menu-bar {
+		background-color: $body-background;
+		a {
+			color: $body-font-color
+		}
+	}
+}
+
+.error-msg {
+	color: $alert-color;
+    text-align: left;
+    margin-top: -1rem;
+}
+
+.modal {
+	padding: 2rem;
+
+	.grid-content{
+		height: 100%;
+		max-width: 25rem;
+    	margin: 0 auto 3.2rem auto;
+
+		img {
+			width: 18rem;
+		    margin-top: 2rem;
+		    margin-bottom: -1rem;
+		    -webkit-transform: rotate(12deg);
+		    transform: rotate(12deg);
+		    overflow: hidden;
+		    height: auto;
+		    border: 1px solid #ccc;
+		    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.24);
+		}
+
+		.warning-note {
+			text-align: left;
+		    background-color: rgba(242, 253, 159, 0.61);
+		    padding: 0.5rem 2rem;
+		    width: 80%;
+		    margin: 2rem auto 0 auto;
+		    border-radius: $button-radius;
+		    border: $input-border;
+
+		    p, ul, a {
+		    	font-size: 0.8rem;
+		    	margin-bottom: 0.5rem;
+		    }
+		    a:hover, a:active {text-decoration: underline}
+		}
+
+		.footer {
+	    	position: absolute;
+		    bottom: 0;
+		    left: 0;
+		    padding: 1.5rem 2rem 0.4rem 2rem;
+		    background: #fff;
+		    border: $input-border;
+		    text-align: center;
+		    width: 100%;
+
+		    .cancel-btn { 
+		    	line-height: 2.4rem 
+		    }
+
+		    .update-msg {
+		    	@extend .cancel-btn;
+		    	padding-right: 1rem;
+		    	.success {color: #A4B3B0}
+		    	.fail {color: rgba(243, 0, 0, 0.55)}
+		    }
+		}
+	}
+}
+

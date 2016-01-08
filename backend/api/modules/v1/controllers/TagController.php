@@ -5,7 +5,7 @@ namespace app\api\modules\v1\controllers;
 class TagController extends NestedActiveController
 {
     public $modelClass = 'app\models\Tag';
-    public $relationAttribute = 'TagIds';
+    public $relationAttribute = 'tagIds';
     public $relations  = [
     	'images' => 'image_id',
     	'owner'  => 'owner_id'

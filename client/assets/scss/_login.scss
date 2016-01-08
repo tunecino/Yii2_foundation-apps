@@ -1,0 +1,25 @@
+.stretch-container {
+	@extend .grid-container;
+	max-width: 25rem;
+
+	button {
+		height: 3rem;
+		margin: 0 auto;
+	}
+
+	.remember {
+		margin-top: -1rem;
+		.v-align {padding: 0}
+	}
+
+	.title {
+		text-align: center;
+		text-transform: uppercase;
+	}
+
+	.intro {
+		margin-top: 2rem;
+	    text-align: center;
+	    color: #B2BABA;
+	}
+}

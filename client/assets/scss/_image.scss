@@ -1,0 +1,171 @@
+.add-btn {
+	margin: 2.3rem 1rem;
+}
+
+.pagination select {
+	margin: 0 auto 1rem;
+	line-height: 1rem;
+    width: 92%;
+}
+
+.inversed-quote {
+	text-align: right;
+	margin: 0;
+	border: none;
+	border-right: 1px solid #ddd;
+}
+
+
+.filter-bar {
+	line-height: 2rem;
+
+	.search {
+		height: 2.4rem;
+	}
+
+	.ng-isolate-scope {
+		margin-bottom: .5rem;
+	}
+
+	.counter {
+		margin-left: -2rem;
+	    margin-right: 1rem;
+	}
+
+	.action-tag {
+		float: left;
+		margin-right: .3rem;
+	}
+
+	.action:hover, .action:active {
+		border-bottom: 1px dotted;
+	}
+}
+
+
+
+.flip {
+	-webkit-perspective: 800;
+    height: 22rem;
+
+    .flipped {
+	    -webkit-transform: rotatey(180deg);
+	}
+
+	.fcard {
+		width: 100%;
+	    height: 100%;
+	    -webkit-transform-style: preserve-3d;
+	    -webkit-transition: 0.4s;
+	    /*box-shadow: 0px 1px 2px 0px rgba(56, 51, 51, 0.36);*/
+		box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
+
+		.front {
+			position: absolute;
+		    z-index: 1;
+		    background-color: #EDEDED;
+		    color: white;
+		    background-size: cover;
+		    font-size: 2em;
+
+		    &:hover, &:active {
+		    	background-color: $body-background;
+    			background-blend-mode: luminosity;
+		    }
+
+		    &:hover .overlay, &:active .overlay{
+				opacity: 1;
+    			visibility: visible;
+			}
+
+			.overlay {
+				opacity: 0;
+				/*background-color: rgba(255, 255, 255, .75);*/
+				background-color: rgba(245, 245, 246, 0.75);
+				background: radial-gradient(ellipse at center, rgba(245, 245, 246, 0.75) 0%, rgb(245, 245, 246) 100%);
+				position: relative;
+				height: 100%;
+				padding: 14px;
+				/*background-color: rgba(74, 19, 123, 0.7);*/
+				/*background: rgba(255,255,255,0.66);*/
+		    	/*filter: blur(10px) saturate(2);*/
+
+		    	color: #000;
+		    	/*transition: opacity .5s;*/
+
+				/*background: rgba(227,227,227,1);
+    			background: linear-gradient(45deg, rgb(245, 245, 246) 0%, rgba(211, 237, 243, 0.8) 27%, rgba(145, 201, 218, 0.44) 53%, rgba(241, 247, 246, 0.93) 85%, rgba(175, 226, 216, 0.47) 100%);*/
+
+				.menu {
+					float: right;
+				    text-align: right;
+				    width: 99px;
+				    span {
+				    	cursor: pointer
+				    }
+				    .link:hover, .link:active {
+				    	color: $info-color;
+				    }
+				}
+
+				.title {
+					position: absolute;
+				    bottom: 0;
+				    font-family: inherit;
+				    font-weight: normal;
+				    font-size: 2.8rem;
+				    line-height: 1;
+				    margin-bottom: 1rem;
+				    width: 18rem;
+				}
+			}
+		}
+
+		.face {
+		    width: 100%;
+		    height: 100%;
+		    position: absolute;
+		    -webkit-backface-visibility: hidden;
+		    z-index: 2;
+		    /*font-family: Georgia;*/
+		}
+
+		.back {
+			position: relative;
+		    -webkit-transform: rotatey(180deg);
+		    background: #fff;
+		    padding: 1rem;
+
+		    .footer {
+		    	position: absolute;
+			    bottom: 0;
+			    left: 0;
+			    padding: 1rem 1rem 0.2rem 2rem;
+			    background: $body-background;
+			    border: 1px solid rgba(199, 199, 204, 0.37);
+			    text-align: center;
+			    width: 100%;
+
+			    .cancel-btn { 
+			    	line-height: 2.4rem 
+			    }
+
+			    .update-msg {
+			    	@extend .cancel-btn;
+			    	padding-right: 1rem;
+			    	.success {color: #A4B3B0}
+			    	.fail {color: rgba(243, 0, 0, 0.55)}
+			    }
+			}
+		}
+	}
+}
+
+.cancel-link small {color: #6D6C73}
+
+
+
+
+
+
+

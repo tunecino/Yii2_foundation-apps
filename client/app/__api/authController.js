@@ -6,8 +6,8 @@
     .controller('AuthController', AuthController);
 
 
-	AuthController.$inject = ['$state', '$rootScope', 'AuthService', 'UserService'];
-	function AuthController ($state, $rootScope, AuthService, UserService) {
+	AuthController.$inject = ['$state', '$rootScope', 'AuthService', 'UserService', 'FoundationApi'];
+	function AuthController ($state, $rootScope, AuthService, UserService, FoundationApi) {
 		var $ = this;
 
 	    $.currentUser = UserService.getCurrentUser();
@@ -27,6 +27,17 @@
 	    	if ($.currentUser) $.currentUser = null;
 	        $state.go('login');
 	    });
+
+	    $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {
+			if ($.currentUser && _.includes(['login','signup','recovery'], toState.name)) {
+				FoundationApi.publish('main-notifications', {
+					content: 'you are already logged in !',
+					color: 'info', 
+					autoclose: 2000
+	            });
+				event.preventDefault();
+			}
+		});
 	}
   
 })();

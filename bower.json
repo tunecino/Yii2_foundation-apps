@@ -26,6 +26,6 @@
     "foundation-apps": "~1.1.0",
     "lodash": "~3.10.1",
     "restangular": "~1.5.1",
-    "a0-angular-storage": "~0.0.13"
+    "angular-locker": "~2.0.3"
   }
 }

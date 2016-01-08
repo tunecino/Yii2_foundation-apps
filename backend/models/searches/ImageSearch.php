@@ -21,7 +21,11 @@ class ImageSearch extends Image
     public function rules()
     {
         return [
-            [['id', 'owner_id', 'tag_id'], 'integer'],
+            [['id', 'owner_id'], 'integer'],
+            [['tag_id'], 'filter', 'filter' => function($ids) {
+                return preg_split('/\s*,\s*/', $ids, -1, PREG_SPLIT_NO_EMPTY);
+            }],
+            ['tag_id', 'each', 'rule' => ['integer']],
             [['name', 'url'], 'safe'],
         ];
     }
@@ -53,6 +57,7 @@ class ImageSearch extends Image
         $this->load($params);
 
         if (!$this->validate()) {
+            print_r($this->errors);
             // uncomment the following line if you do not want to return any records when validation fails
             $query->where('0=1');
             return $dataProvider;
@@ -66,6 +71,8 @@ class ImageSearch extends Image
             'owner_id' => $this->owner_id,
             'tag.id' => $this->tag_id,
         ]);
+
+        if ($this->tag_id) $query->having(['COUNT(DISTINCT tag.id)' => count($this->tag_id)]);
 
         $query->andFilterWhere(['like', 'image.name', $this->name])
             ->andFilterWhere(['like', 'url', $this->url]);

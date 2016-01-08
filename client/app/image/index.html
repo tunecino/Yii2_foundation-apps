@@ -1,91 +1,142 @@
-<h1>Images</h1>
+<div class="grid-block">
+	<div class="grid-content">
+		<h1>Images</h1>
+	</div>
+	<div class="grid-content shrink">
+		<div class="grid-block"><a class="success button add-btn" ui-sref="add">+ new</a></div>
+	</div>
+</div>
 
-<style type="text/css">
-	.card {
-		height: 300px;
-		background-color: #EDEDED;
-		background-size: cover;
-	}
-</style>
-<!-- <p>
-	<a ui-sref="edit({id:'2'})">edit image 2</a>
-	- 
-	<a ui-sref="add">add</a>
-</p> -->
+<div class="grid-block filter-bar">
+	<div class="grid-content large-4 medium-4 small-12" >
+		<input 
+			type="text"
+			class="search" 
+			placeholder="Search by name" 
+			ng-model="query" 
+			ng-change="$.images.where({name: query});"
+			ng-model-options="{updateOn:'default blur', debounce:{'default':500, 'blur':0}}"
+		>
+	</div>
 
-<button ng-click="$.images.firstPage();">first</button>
-.
-<button ng-click="$.images.prevPage();">prev</button>
-<button ng-click="$.images.nextPage();">next</button>
-.
-<button ng-click="$.images.lastPage();">last</button>
-<p>
-	<a ng-click="$.images.Page(3);">page 3</a>
-	|
-	<a ng-click="$.images.Refresh();">refresh</a>
-	|
-	<a ng-click="$.images.load(3).with(['tags','owner']);">with tags+owners</a>
-	|
-	<a ng-click="$.images.where({name: 'sport'});">where</a>
-</p>
+	<div class="grid-content large-4 medium-3 small-12">
+		<zf-action-sheet>
+			<zf-as-button>
+				<a class="action" ng-hide="$.tagsFilter.length">Filter by tags</a>
+				<a class="action" ng-show="$.tagsFilter.length"><b>Filtered by {{$.tagsFilter.length}} tags</b></a>
+			</zf-as-button>
+			<zf-as-content position="bottom">
+				<div 
+	        		class="secondary button action-tag" 
+	        		ng-repeat="tag in $.tags track by tag.id"
+	        		ng-class="{ 'info': $.isFilteredTag(tag.id) }" 
+					ng-click="$.updateTagFilter(tag.id)"
+	        		>{{ tag.name }}
+	        	</div>
+	        	<hr>
+	        	<h5
+	        		ng-hide="$.tagsFilter.length"
+	        		class="subheader" 
+	        		>unselect all
+	        	</h5>
+	        	<h5 
+	        		ng-show="$.tagsFilter.length" 
+	        		ng-click="$.updateTagFilter(null)"
+	        		><a>unselect all</a>
+	        	</h5>
+			</zf-as-content>
+		</zf-action-sheet>
+	</div>
 
-<input 
-	type="text" 
-	placeholder="Search by name" 
-	ng-model="query" 
-	ng-change="$.images.where({name: query});"
-	ng-model-options="{updateOn:'default blur', debounce:{'default':500, 'blur':0}}"
->
+	<div class="grid-content large-4 medium-5 small-12">
+		<div class="float-right">
+			<zf-action-sheet class="counter">
+				<zf-as-button><a class="action">Page {{ $.images.meta().$currentPage }}/{{ $.images.meta().$pageCount }} - <b>{{ $.images.meta().$totalCount }} {{ $.images.meta().$totalCount > 1 ? 'images' : 'image' }}</b></a></zf-as-button>
+				<zf-as-content position="bottom">
+
+				<div class="grid-container">
+
+					<div class="grid-content">
+						<div class="secondary button" ng-class="{ 'disabled': $.images.isFirst() }" ng-click="$.images.firstPage();">First Page</div>
+						<div class="secondary button" ng-class="{ 'disabled': $.images.isLast() }" ng-click="$.images.lastPage();">Last Page</div>
+					</div>
+
+					<div class="grid-content pagination">
+						<select 
+							ng-model="$.page" 
+							ng-options="k as v for (k,v) in $.range($.images.meta().$pageCount)"
+							ng-change="$.images.Page($.page)"
+						></select>
+					</div>
+
+					<hr>
+
+					<div class="grid-content" ng-init="perPageSet=[3,6,9,12,24]">
+						<h6>images per page</h6>
+						<div 
+							ng-repeat="perPage in perPageSet"
+							class="secondary small button" 
+							style="margin: 0 0.6rem 0.6rem 0;" 
+							ng-class="{ 'info': $.images.meta().$perPage === perPage }" 
+							ng-click="$.images.load(perPage)"
+							>{{perPage}}
+						</div>
+					</div>
+				</div>
+
+				</zf-as-content>
+			</zf-action-sheet>
+			<a class="secondary button" style="margin:0" ng-click="$.images.prevPage();" ng-class="{ 'disabled': !$.images.existPrev() }"><</a>
+			<a class="secondary button" style="margin:0" ng-click="$.images.nextPage();" ng-class="{ 'disabled': !$.images.existNext() }">></a>
+		</div>
+	</div>
+</div>
+
 
 <div class="grid-block small-up-1 medium-up-2 large-up-3">
-    <div class="grid-content" ng-repeat="image in $.images">
-        <div class="card" style="background-image: url({{image.url}})">
+    <div class="grid-content  margin-br1 fadeIn fadeOut" ng-repeat="image in $.images">
+    	<div class="flip" ng-init="selectedTab = 'image'">
+		    <div class="fcard" ng-class="{'flipped':selectedTab === 'tags'}">
 
-            <div class="card-divider grid-block" ng-init="editBtn=false">
-                <div class="small-8" style="padding-left:10px;">{{ image.name }}</div>
-                <div class="small-4" style="padding-right:10px;">
-	                <a class="float-right" ng-hide="editBtn" ng-click="editBtn=!editBtn">Edit</a>
-	                <span ng-show="editBtn">
-	                	<a class="float-right" style="margin-left:10px;">Tags</a>
-	                	<a ui-sref="edit({id:image.id})" style="margin-left:10px;" class="float-right">Image</a>
-	                	<a class="float-right" ng-click="editBtn=!editBtn" style="color:gray;font-size:10px;">cancel</a>
-	                </span>
-	            </div>
-			</div>
+		        <div class="face front" style="background-image: url({{image.url}})">
+			        <div class="overlay">
+			        	<div class="menu">
+				        	<span ng-hide="editBtn" ng-click="editBtn=!editBtn">Edit</span>
+				            <span ng-show="editBtn">
+				            	<span class="link" ng-click="selectedTab = 'tags'">Tags</span>
+				            	<span class="link" ui-sref="edit({id:image.id})">Image</span>
+				            	<span class="cancel-link" ng-click="editBtn=!editBtn"><small>cancel</small></span>
+				            </span>
+				        </div>
+				        <div class="title">{{ image.name }}</div>
+			        </div>
+		        </div>
 
-            <div class="card-section" >
-            	<div class="secondary button" ng-repeat="tag in image.tags">{{ tag.name }}</div>
-            </div>
-        </div>
+		        <div class="face back">
+		        	<div 
+		        		class="secondary button" 
+		        		ng-repeat="tag in $.tags track by tag.id"
+		        		ng-class="{'info': $.isRelated(image,tag)}"
+		        		ng-click="$.toggle(image,tag)"
+		        		>{{ tag.name }}
+		        	</div>
+		        	<div class="footer">
+		        		<a class="float-left cancel-btn" ng-click="selectedTab = $.cancel(image)" ng-show="!image.update || image.update === 'fail'">cancel</a>
+		        		<a class="float-left cancel-btn" ng-click="selectedTab = $.cancel(image)" ng-show="image.update === 'success'">close</a>
+		        		<a class="float-right success button" ng-click="$.save(image)" ng-class="{'disabled': !image.dirty || image.update === 'start' }">
+		        			<span ng-hide="image.update === 'start'">save</span>
+		        			<span ng-show="image.update === 'start'">saving...</span>
+		        		</a>
+		        		<span class="update-msg float-right">
+		        			<span class="success" ng-show="image.update === 'success'">saved</span>
+		        			<span class="fail" ng-show="image.update === 'fail'">failed</span>
+		        		</span>
+		        	</div>
+		        </div>
+
+		    </div>
+		</div>
     </div>
 </div>
 
-
-
-
-<div class="grid-block">
-	<div class="grid-content">
-		<ul>
-	<li>currentPage: {{$.images.meta().$currentPage}}</li>
-	<li>pageCount: {{$.images.meta().$pageCount}}</li>
-	<li>perPage: {{$.images.meta().$perPage}}</li>
-	<li>totalCount: {{$.images.meta().$totalCount}}</li>
-</ul>
-
-
-	</div>
-	<div class="grid-content">
-		<ul>
-	<li>isFirst: {{$.images.isFirst()}}</li>
-	<li>isLast: {{$.images.isLast()}}</li>
-	<li>existNext: {{$.images.existNext()}}</li>
-	<li>existPrev: {{$.images.existPrev()}}</li>
-</ul>
-	</div>
-</div>
-
-<!-- <pre>
-{{ $.images | json }}
-</pre> -->
-
-<div ui-view></div>
+<div ng-class="['fadeIn fadeOut']" ui-view></div>

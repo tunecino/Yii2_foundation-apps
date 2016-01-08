@@ -4,6 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Foundation for Apps</title>
+    <link href='https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,700,400italic' rel='stylesheet' type='text/css'>
     <link href="./assets/css/app.css" rel="stylesheet" type="text/css">
     <script src="./assets/js/foundation.js"></script>
     <script src="./assets/js/templates.js"></script>
@@ -12,7 +13,7 @@
   </head>
   <body ng-controller="AuthController as session">
 
-    <zf-offcanvas position="left" id="menu-off-canvas">
+    <zf-offcanvas position="left" id="menu-off-canvas" ng-cloak>
         <a zf-close class="close-button">x</a>
         <ul class="menu-bar vertical">
             <li class="title">Menu</li>
@@ -25,17 +26,21 @@
         </ul>
     </zf-offcanvas>
 
-    <div class="grid-frame vertical">
-      <div class="grid-content shrink" style="padding: 0;">
-        <ul class="condense menu-bar ng-scope">
-              <li><a href="#" zf-open="menu-off-canvas">M</a></li>
-              <li class="right"><a href="#">is_loading: {{loading}}</a></li>
-              <li><a ng-if="session.currentUser" ng-click="session.logout()">logout ({{session.currentUser.name}})</a></li>
-        </ul>
-      </div>
+    <div class="grid-frame">
       <div class="grid-content">
+
+        <div class="grid-block top" ng-cloak>
+            <ul class="condense menu-bar small-12">
+                <li><a href="#" zf-open="menu-off-canvas"><img class="burger-btn" src="./assets/img/burger.svg"></a></li>
+                <li class="right" style="min-width:4rem;"><img ng-show="loading" style="margin-top:0.6rem" src="./assets/img/ring.svg"></li>
+                <li ng-if="session.currentUser"><div style="padding: 0.6rem;border-right: 1px solid #dae2e3;color:#8F9B9C;">hello {{session.currentUser.name}}</div></li>
+                <li ng-if="session.currentUser"><a ng-click="session.logout()">logout</a></li>
+            </ul>
+
+        </div>
+      
         <div class="grid-container">
-          <div ng-class="['ui-animation']" ui-view></div>
+          <div ng-class="['fadeIn']" ui-view><img class="full-loader" src="./assets/img/ring.svg"></div>
         </div>
       </div>
     </div>

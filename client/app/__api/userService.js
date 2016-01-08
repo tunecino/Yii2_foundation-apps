@@ -5,33 +5,51 @@
     .module('API')
     .service('UserService', UserService);
 
-  UserService.$inject = ['store', 'HTTPCache'];
-  function UserService(store, HTTPCache){
+  UserService.$inject = ['locker', 'HTTPCache'];
+  function UserService(locker, HTTPCache){
 
     var service = this,
-        currentUser = null;
+        currentUser = null,
+        driver = 'session';
 
     service.setCurrentUser = function(user) {
-        if (!user) HTTPCache.remove();
-        currentUser = user;
-        store.set('user', user);
+        if (!user) {
+          HTTPCache.remove();
+          currentUser = null;
+          locker.driver(driver).clean();
+        }
+        else {
+          currentUser = user;
+          locker.driver(driver).put('user', user);
+        }
         return currentUser;
     };
 
     service.getCurrentUser = function() {
         if (!currentUser) {
-            currentUser = store.get('user');
+            currentUser = locker.driver(driver).get('user');
+            if (!currentUser) {
+              service.switchDriver('local');
+              currentUser = locker.driver(driver).get('user');
+            }
         }
         return currentUser;
     };
 
+    service.switchDriver = function(newDriver) {
+      if (driver !== newDriver) {
+        locker.empty();
+        driver = newDriver;
+      }
+    };
+
     service.updateCurrentUser = function(token) {
         if (!currentUser) {
-            currentUser = store.get('user');
+            currentUser = service.getCurrentUser();
         }
         currentUser.access_token = token.access_token;
         currentUser.expires_at = token.expires_at;
-        store.set('user', currentUser);
+        service.setCurrentUser(currentUser);
     };
 
     service.isLogged = function() {

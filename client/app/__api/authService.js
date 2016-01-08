@@ -20,6 +20,8 @@
         .customPOST(credentials, 'login', undefined, {})
         .then(function(response){
             var user = response.data.user;
+            if (credentials.rememberMe) UserService.switchDriver('local');
+            else UserService.switchDriver('session');
             UserService.setCurrentUser(user);
             $rootScope.$broadcast('authorized');
         });

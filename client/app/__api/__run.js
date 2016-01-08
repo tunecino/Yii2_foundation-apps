@@ -71,11 +71,20 @@
         // more details here : http://www.yiiframework.com/doc-2.0/guide-rest-error-handling.html
 
         if(commonErrors.indexOf(response.status) > 0) {
-          FoundationApi.publish('main-notifications', { 
+          if (response.status === 403) {
+            FoundationApi.publish('main-notifications', { 
+              title: response.data.name,
+              content: response.data.message,
+              color: 'alert', 
+              autoclose: 5000 
+            });
+            return true; // error not handled
+          }
+          else FoundationApi.publish('main-notifications', { 
             title: 'Server Error: ' + response.status, 
             content: response.statusText, 
             color: 'alert', 
-            autoclose: 4000 
+            autoclose: 5000 
           });
           return false; // error handled
         }

@@ -12,7 +12,7 @@ class LoginForm extends Model
 {
     public $username;
     public $password;
-    public $rememberMe = true;
+    public $rememberMe;
 
     private $_user;
 
@@ -62,6 +62,8 @@ class LoginForm extends Model
             $session = new Session;
             $session->user_id = $user->id;
             $session->generateAuthKey();
+
+            if ($this->rememberMe) $session->retained = 1;
 
             if ($session->save() === true) {
                 $user->auth_key = $session->auth_key;

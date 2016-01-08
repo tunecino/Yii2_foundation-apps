@@ -2,7 +2,7 @@
     <div class="modal-overlay is-active" id="modal">
 	 <aside class="modal is-active">
 	    <a ui-sref="images" class="close-button">×</a>
-		    <div class="grid-content">
+		    <div class="grid-content noscroll text-center">
 
 			  	<input 
 			  		type="text" 
@@ -12,8 +12,8 @@
 			  		ng-pattern="$.pattern.name" 
 			  		required
 			  	>
-			  	<p ng-show="form.name.$dirty && form.name.$error.required">name is required.</p>
-			  	<p ng-show="form.name.$error.server && form.name.$error.pattern">{{form.url.$error.message}}</p>
+			  	<p class="error-msg" ng-show="form.name.$dirty && form.name.$error.required">name is required.</p>
+			  	<p class="error-msg" ng-show="form.name.$error.server && form.name.$error.pattern">{{form.name.$error.message}}</p>
 
 			  	<input 
 			  		type="url" 
@@ -24,18 +24,38 @@
 			  		ng-change="$.loadImage()"
 			  		required
 			  	>
-			  	<p ng-show="form.url.$dirty && form.url.$error.required">url is required.</p>
-			  	<p ng-show="form.url.$dirty && form.url.$error.url">doesn't look like a valid url.</p>
-			  	<p ng-show="form.url.$error.isImage">no image found here.</p>
-			  	<p ng-show="form.url.$error.server && form.url.$error.pattern">{{form.url.$error.message}}</p>
+			  	<p class="error-msg" ng-show="form.url.$dirty && form.url.$error.required">url is required.</p>
+			  	<p class="error-msg" ng-show="form.url.$dirty && form.url.$error.url">doesn't look like a valid url.</p>
+			  	<p class="error-msg" ng-show="form.url.$error.content">no image found here.</p>
+			  	<p class="error-msg" ng-show="form.url.$error.server && form.url.$error.pattern">{{form.url.$error.message}}</p>
 
-				<img ng-show="$.loadedImage" ng-src="{{ $.loadedImage }}">
+			  	<blockquote ng-if="$.image.id" class="inversed-quote">added by <b>{{$.image.uploader}}</b><cite>{{$.image.created_at * 1000 | date:'medium'}}</cite></blockquote>
 
-			    <button 
-			      	type="submit" 
-			      	class="button medium" 
-			      	ng-class="{ 'disabled': form.$invalid }"
-			    >Accept</button>
+				<img class="thumbnail" ng-show="$.loadedImage" ng-src="{{$.loadedImage}}">
+
+				<div class="warning-note" ng-hide="$.loadedImage">
+					<p>We can only accept and store urls from the following images providers :</p>
+					<ul>
+						<li ng-repeat="owner in $.owners">
+							<a href="{{ 'http://' + owner.dns }}" target="_blank">{{owner.dns}}</a>
+						</li>
+					</ul>
+				</div>
+
+			    <div class="footer">
+			    	<a class="float-left cancel-btn" ui-sref="images">cancel</a>
+			    	<button 
+				      	type="submit" 
+				      	class="float-right success button medium" 
+				      	ng-class="{ 'disabled': form.$invalid || $.image.update === 'start'}"
+				    	>
+				    	<span ng-hide="$.image.update === 'start'">save</span>
+		        		<span ng-show="$.image.update === 'start'">saving...</span>
+				    </button>
+				    <span class="update-msg float-right">
+	        			<a class="fail" ng-if="$.image.id" ng-click="$.delete()">delete</a>
+	        		</span>
+			    </div>
 			    
 		    </div>
 	 </aside>
