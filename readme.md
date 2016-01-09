@@ -5,6 +5,9 @@
 This suppose to become a RESTful crud example app using :
 Yii 2.0 framework as a PHP backend, AngularJs & Zurb's Foundation for apps. 
 
+[online preview (under dev)](http://tunecino.github.io/yii2_f4a_preview/#!/images)
+===
+
 ---
 
 # Foundation for Apps Template

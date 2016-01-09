@@ -67,7 +67,7 @@
           return false; // error handled
         }
 
-        var commonErrors = [400, 403, 404, 405, 415, 429, 500];
+        var commonErrors = [400, 403, 404, 405, 415, 429, 500, 503];
         // more details here : http://www.yiiframework.com/doc-2.0/guide-rest-error-handling.html
 
         if(commonErrors.indexOf(response.status) > 0) {
